@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
-  sideNavStatus: boolean = false!;
+  sideNavStatus: boolean = true;
 }
