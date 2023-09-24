@@ -1,8 +1,8 @@
-import {Component, Inject} from '@angular/core';
+import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {catchError, tap} from "rxjs";
+import {ProductService} from "../service/product.service";
 @Component({
   selector: 'app-register-product',
   templateUrl: './register-product.component.html'
@@ -12,16 +12,19 @@ export class RegisterProductComponent {
   private _router: Router;
   private _baseUrl: string;
   private _http: HttpClient;
+  private _productService: ProductService;
   myForm: FormGroup = this.fb.group({});
   constructor(private fb: FormBuilder,
               http: HttpClient,
               @Inject('BASE_URL') baseUrl: string,
-              router: Router)
-
+              router: Router,
+              private renderer: Renderer2,
+              private productService: ProductService)
   {
       this._http = http;
       this._baseUrl = baseUrl;
       this._router = router;
+      this._productService = productService;
   }
 
   ngOnInit() {
@@ -30,7 +33,7 @@ export class RegisterProductComponent {
       price: ['', [Validators.required, Validators.min(1)]],
       quantity: ['', [Validators.required, Validators.min(1)]],
       description: ['', [Validators.required, Validators.minLength(25)]],
-      type: ['---Selecione o tipo de produto---', [Validators.required]],
+      type: ['-- Selecione o tipo de produto --', [Validators.required]],
     });
   }
 
@@ -39,18 +42,15 @@ export class RegisterProductComponent {
     { name: "Non-Organic", value: 1}
   ];
 
-  public submit() {
+  public submit():void {
 
-    this._http.post(this._baseUrl + 'product',
-      this.myForm.value, {observe: 'response'})
-      .pipe(
-        tap(response =>
-          this._router.navigate(['/product-list'])),
-        catchError((error): any  => {
-          alert(error.error);
-        })
-      )
-      .subscribe();
+    if (this.myForm.invalid) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+
+    this._productService
+      .registerProduct(this.myForm.value);
 
   }
 
