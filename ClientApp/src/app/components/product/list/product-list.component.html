@@ -1,12 +1,14 @@
 
   <div class="animate__animated animate__fadeIn container" [ngStyle]="{'height': !products.length ? '100%': ''}">
-    <div class="header-container row col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-      <h3 class="header col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">Catálogo de Produtos</h3>
-    </div>
-    <div class="row justify-content-sm-center">
-      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-        <div class="input-group">
+    <header class="header-container row col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+      <h3 class="header">Catálogo de Produtos</h3>
+    </header>
 
+    <main class="row justify-content-sm-center">
+
+      <section class="search-and-filter">
+
+        <div class="search-input-container input-group">
           <input [placeholder]="searchInputPlaceholder"
                  class="form-control border-end-0 border rounded-pill"
                  type="search"
@@ -20,73 +22,65 @@
               </button>
           </span>
         </div>
-      </div>
-      <div class="filter-dropdown-external-wrapper col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-        <div class="d-flex justify-content-center">
-          <label id="order" class="mb-0" for="filterType">Ordenar:</label>
-          <select id="filterType"
-                  [(ngModel)]="orderingValue" class="form-select ml-1 filter-dropdown"
-                  (ngModelChange)="fetchProductsByOrderingValue(orderingValue,pageIndex.toString())">
-              <option class="text-center text-shrink "
-                      *ngFor="let orderingType of orderingTypes"
-                      [ngValue]="orderingType.value"
-              >
-                {{orderingType.label}}
-              </option>
-          </select>
-        </div>
-      </div>
 
-    <ng-container *ngIf="!hasProducts">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <p class="text-start mb-4">{{emptyProductsMessage}}</p>
+        <ng-container *ngIf="isProductsListEmpty(products)">
+          <div class="filter-dropdown-container col-xl-12 d-flex justify-content-center align-items-center">
+              <label id="order" class="mb-0" for="filterType">Ordenar:</label>
+              <select id="filterType"
+                      [(ngModel)]="orderingValue" class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 form-select ml-1 filter-dropdown"
+                      (ngModelChange)="fetchProductsByOrderingValue(orderingValue,pageIndex.toString())">
+                  <option class="text-center text-shrink "
+                          *ngFor="let orderingType of orderingTypes"
+                          [ngValue]="orderingType.value"
+                  >
+                    {{orderingType.label}}
+                  </option>
+              </select>
           </div>
+        </ng-container>
+      </section>
+
+      <section class="products-list-items">
+        <ng-container *ngIf="!hasProducts">
+                <p class="text-start mb-4">{{emptyProductsMessage}}</p>
+        </ng-container>
+
+        <ng-container *ngIf="isProductsListEmpty(products)">
+            <app-product-card
+              [products]="products">
+            </app-product-card>
+        </ng-container>
+      </section>
+
+    </main>
+
+
+
+  <ng-container *ngIf="isProductsListEmpty(products)">
+    <footer class="product-list-footer">
+      <div class="products-total col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+          <span id="products-total-font-size">
+            <strong>Total de produtos</strong>: {{totalCount}}
+          </span>
+      </div>
+
+      <section class="pagination-container container">
+        <div class="row w-100 d-flex col-12">
+          <nav class="d-flex justify-content-center col-12 p-0" aria-label="Page navigation example">
+            <ul class="pagination justify-content-center my-0">
+              <li [ngClass]="pageIndex <= 1 ? 'disabled' : ''" class="page-item">
+                <a class="btn page-link rounded-0 rounded-start" tabindex="-1" (click)="pagePrev()">Anterior</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link">{{pageIndex < 1 ? 1 : pageIndex}}/{{totalPages}}</a>
+              </li>
+              <li [ngClass]="pageIndex < totalPages ? '' : 'disabled'" class="page-item">
+                <a class="btn page-link rounded-0 rounded-end" (click)="pageNext()">Próximo</a>
+              </li>
+            </ul>
+          </nav>
         </div>
-      </div>
-    </ng-container>
-
-
-    <ng-container *ngIf="isProductsListEmpty(products)">
-      <div class="row d-flex justify-content-center align-items-center">
-          <app-product-card
-            [products]="products">
-          </app-product-card>
-      </div>
-    </ng-container>
-  </div>
-
-  <ng-container *ngIf="isProductsListEmpty(products)">
-    <div class="products-total col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-        <span id="products-total-font-size">
-          <strong>Total de produtos</strong>: {{totalCount}}
-        </span>
-
-
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="isProductsListEmpty(products)">
-
-    <div [ngClass]="{'pagination-position-tablet': deviceType[0].isEnable,
-        'pagination-position-laptop': deviceType[1].isEnable}"
-      id="pagination-container" class="container p-3 col-12">
-      <div class="row w-100 d-flex col-12">
-        <nav class="d-flex justify-content-center col-12 p-0" aria-label="Page navigation example">
-          <ul class="pagination justify-content-center my-0">
-            <li [ngClass]="pageIndex <= 1 ? 'disabled' : ''" class="page-item">
-              <a class="btn page-link rounded-0 rounded-start" tabindex="-1" (click)="pagePrev()">Anterior</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link">{{pageIndex < 1 ? 1 : pageIndex}}/{{totalPages}}</a>
-            </li>
-            <li [ngClass]="pageIndex < totalPages ? '' : 'disabled'" class="page-item">
-              <a class="btn page-link rounded-0 rounded-end" (click)="pageNext()">Próximo</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+      </section>
+    </footer>
   </ng-container>
 </div>
