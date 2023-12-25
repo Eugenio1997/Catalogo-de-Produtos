@@ -4,6 +4,6 @@ export interface Product {
   price: number;
   quantityInStock: number;
   description: string;
-  type: string;
+  type: number;
   imageRef: string;
 }
