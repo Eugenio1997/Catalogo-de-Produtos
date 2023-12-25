@@ -7,8 +7,7 @@ import product from "@assets/json/product-categories.json";
 export class CheckProductTypePipe implements PipeTransform {
   public readonly productTypes: any = product.types;
 
-  transform(productType: string,): string {
-
+  transform(productType: number): string {
 
 
     switch (productType) {
@@ -29,7 +28,7 @@ export class CheckProductTypePipe implements PipeTransform {
             return this.productTypes[4].label;
 
           case this.productTypes[5].value:
-            return this.productTypes[5].value;
+            return this.productTypes[5].label;
 
           case this.productTypes[6].value:
             return this.productTypes[6].label;
