@@ -1,6 +1,5 @@
 import {
   Component,
-  HostListener,
   Inject,
   OnDestroy, OnInit,
 } from '@angular/core';
@@ -8,8 +7,6 @@ import {HttpClient} from '@angular/common/http';
 import {ProductService} from "@components/product/product.service";
 import {Subject, takeUntil} from "rxjs";
 import {Product} from "@interfaces/product";
-import {identifyDeviceType} from "@util/getDimensionsUtil";
-import {SidenavService} from "@shared/side-nav/sidenav.service";
 import ordenation from "@assets/json/ordering-types.json";
 
 
@@ -41,8 +38,7 @@ export class ProductListComponent implements OnDestroy, OnInit {
 
   constructor(http: HttpClient,
               @Inject('BASE_URL') baseUrl: string,
-              private productService: ProductService,
-              private _sidenavService: SidenavService
+              private productService: ProductService
   ) {
     this._http = http;
     this._baseUrl = baseUrl;
@@ -50,30 +46,8 @@ export class ProductListComponent implements OnDestroy, OnInit {
 
 
   ngOnInit() {
-    this.getStatusSidenav();
-    this.screenWidth = window.innerWidth;
-    this.deviceType = identifyDeviceType(this.screenWidth);
-
     this.orderingValue = this.orderingTypes[1].value;
-
     this.fetchProductsByOrderingValue(this.orderingValue, this.pageIndex.toString());
-  }
-
-  public getStatusSidenav(){
-    this._sidenavService
-      .getSidenavStatus$()
-      .subscribe( (sidenavStatus: boolean) => {
-        this.sidenavStatus = sidenavStatus;
-        if(sidenavStatus){
-          this.deviceType[0].isEnable = false;
-          this.deviceType[1].isEnable = true;
-        }
-        else{
-          this.deviceType[0].isEnable = true;
-          this.deviceType[1].isEnable = false;
-        }
-
-      })
   }
 
   public hasOrderingValue(orderingValue: string): void{
@@ -149,13 +123,6 @@ export class ProductListComponent implements OnDestroy, OnInit {
         this.isProductsListEmpty(this.products);
         this.emptyProductsMessage = "Nenhum produto foi encontrado.";
       });
-  }
-
-  //Event listeners
-  @HostListener('window:resize')
-  onResize(){
-    this.screenWidth = window.innerWidth;
-    this.deviceType = identifyDeviceType(this.screenWidth);
   }
 
   ngOnDestroy(): void {

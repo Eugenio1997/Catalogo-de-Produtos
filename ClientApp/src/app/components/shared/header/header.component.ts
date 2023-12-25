@@ -7,7 +7,7 @@ import {identifyDeviceType} from "@util/getDimensionsUtil";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
   //properties
   public menuStatus!: boolean;
@@ -16,37 +16,13 @@ export class HeaderComponent implements OnInit {
 
 
   //Event Emitters
-  @Output() sideNavToggled: EventEmitter<boolean> = new EventEmitter<boolean>(true);
+  @Output() sidenavToggled: EventEmitter<boolean> = new EventEmitter<boolean>(true);
 
-  //hooks
-  ngOnInit(): void {
-    //setting sidenav initial state to open
-    this.onResize();
-  }
 
   //methods
-  public SideNavToggle(): void {
+  public SidenavToggle(): void {
     this.menuStatus = !this.menuStatus;
-    this.sideNavToggled.emit(this.menuStatus);
+    this.sidenavToggled.emit(this.menuStatus);
   }
 
-  //Angular built-in decorator to listen to event and handle method
-  @HostListener('window:resize')
-  onResize(): void{
-    //innerWidth returns the width of the window's layout viewport
-    this.screenWidth = window.innerWidth;
-    this.deviceType = identifyDeviceType(this.screenWidth);
-    this.checkIfOpenMenu(this.deviceType);
-  }
-
-  public checkIfOpenMenu(deviceType: {deviceType: string, isEnable: boolean}[]): any {
-    if(deviceType[0].isEnable) {
-      this.menuStatus = false;
-      this.sideNavToggled.emit(this.menuStatus)
-    }
-    else if(deviceType[1].isEnable){
-      this.menuStatus = true;
-      this.sideNavToggled.emit(this.menuStatus);
-    }
-  }
 }
