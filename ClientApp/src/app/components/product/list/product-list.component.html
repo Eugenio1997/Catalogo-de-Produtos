@@ -1,10 +1,10 @@
 
   <div class="animate__animated animate__fadeIn container" [ngStyle]="{'height': !products.length ? '100%': ''}">
-    <header class="header-container row col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+    <header class="header-container ">
       <h3 class="header">Catálogo de Produtos</h3>
     </header>
 
-    <main class="row justify-content-sm-center">
+    <main class="product-list-container row justify-content-sm-center">
 
       <section class="search-and-filter">
 
@@ -24,12 +24,12 @@
         </div>
 
         <ng-container *ngIf="isProductsListEmpty(products)">
-          <div class="filter-dropdown-container col-xl-12 d-flex justify-content-center align-items-center">
-              <label id="order" class="mb-0" for="filterType">Ordenar:</label>
+          <div class="row filter-dropdown-container">
+              <label class="mb-0" for="filterType">Ordenar:</label>
               <select id="filterType"
-                      [(ngModel)]="orderingValue" class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 form-select ml-1 filter-dropdown"
+                      [(ngModel)]="orderingValue" class="form-select ml-1 filter-dropdown"
                       (ngModelChange)="fetchProductsByOrderingValue(orderingValue,pageIndex.toString())">
-                  <option class="text-center text-shrink "
+                  <option class="text-center"
                           *ngFor="let orderingType of orderingTypes"
                           [ngValue]="orderingType.value"
                   >
@@ -58,16 +58,15 @@
 
   <ng-container *ngIf="isProductsListEmpty(products)">
     <footer class="product-list-footer">
-      <div class="products-total col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-          <span id="products-total-font-size">
+      <section class="products-total">
+          <span>
             <strong>Total de produtos</strong>: {{totalCount}}
           </span>
-      </div>
+      </section>
 
       <section class="pagination-container container">
-        <div class="row w-100 d-flex col-12">
-          <nav class="d-flex justify-content-center col-12 p-0" aria-label="Page navigation example">
-            <ul class="pagination justify-content-center my-0">
+          <nav class="pagination-nav" aria-label="Page navigation">
+            <ul class="pagination">
               <li [ngClass]="pageIndex <= 1 ? 'disabled' : ''" class="page-item">
                 <a class="btn page-link rounded-0 rounded-start" tabindex="-1" (click)="pagePrev()">Anterior</a>
               </li>
@@ -79,7 +78,6 @@
               </li>
             </ul>
           </nav>
-        </div>
       </section>
     </footer>
   </ng-container>
