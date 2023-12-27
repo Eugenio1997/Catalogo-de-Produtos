@@ -8,7 +8,7 @@ public class UserConfiguration: IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.Property(u => u.FirstName).IsRequired();
+        builder.Property(u => u.Firstname).IsRequired();
         builder.Property(u => u.Lastname).IsRequired();
         builder.Property(u => u.Email).IsRequired();
         builder.Property(u => u.Password).IsRequired();

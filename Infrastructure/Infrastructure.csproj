@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <Compile Remove="Class1.cs" />
+      <Compile Remove="Context\Abstraction\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -25,6 +26,14 @@
       <Reference Include="Microsoft.AspNetCore.Mvc.Core">
         <HintPath>..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\7.0.11\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
       </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Context\Abstraction\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Context\Abstraction\**" />
     </ItemGroup>
 
 </Project>

@@ -14,7 +14,11 @@ public class User: BaseEntity
     public int RoleId { get; set; }
     public List<Order> Orders { get; set; }
     public List<Comment> Comments { get; set; }
-    public string FirstName { get; set; }
+    [MinLength(3,ErrorMessage = "The Firstname must contain at least 3 characters")]
+    [MaxLength(12,ErrorMessage = "The Firstname must contain a maximum of 12 characters")] 
+    public string Firstname { get; set; }
+    [MinLength(3,ErrorMessage = "The LastName must contain at least 3 characters")]
+    [MaxLength(12,ErrorMessage = "The LastName must contain a maximum of 12 characters")]
     public string Lastname { get; set; }
     [EmailAddress]
     public string Email { get; set; }
