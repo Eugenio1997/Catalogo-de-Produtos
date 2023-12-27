@@ -1,10 +1,9 @@
 using Domain.Entities;
-using Infrastructure.Context.Abstraction;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Context;
 
-public class ProductCatalogDbContext: DbContext, IProductCatalogDbContext
+public class ProductCatalogDbContext: DbContext
 {
     public ProductCatalogDbContext(DbContextOptions<ProductCatalogDbContext> options) : base(options)
     {}
@@ -13,7 +12,6 @@ public class ProductCatalogDbContext: DbContext, IProductCatalogDbContext
     public DbSet<User>? Users { get; set; }
     public DbSet<Product>? Products { get; set; }
     public DbSet<Order>? Orders { get; set; }
-
     public DbSet<LineItem>? LineItems { get; set; }
     public DbSet<Comment>? Comments { get; set; }
 

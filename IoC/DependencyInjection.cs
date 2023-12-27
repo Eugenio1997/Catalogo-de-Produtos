@@ -1,7 +1,8 @@
 using Infrastructure.Context;
-using Infrastructure.Context.Abstraction;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using ProductCatalog.Services.Abstraction;
+using ProductCatalog.Services.Implementation;
 
 namespace ProductCatalog.IoC;
 
@@ -9,7 +10,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IProductCatalogDbContext,ProductCatalogDbContext>();
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+        services.AddScoped<ProductCatalogDbContext>();
         services.AddDbContext<ProductCatalogDbContext>(
             options => options.UseNpgsql(
                 GetConnectionString(configuration)

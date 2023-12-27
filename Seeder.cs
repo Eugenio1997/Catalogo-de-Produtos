@@ -106,7 +106,7 @@ public static class Seeder
         {
             new()
             {
-                FirstName = "Eugenio",
+                Firstname = "Eugenio",
                 Lastname = "Lopes",
                 RoleId = context.Roles.Where(r => r.RoleId == RolesEnum.User).Select(r => r.Id).FirstOrDefault(),
                 Email = "eugeniolopes@0001.com",
@@ -119,7 +119,7 @@ public static class Seeder
             },
             new()
             {
-                FirstName = "Jõao",
+                Firstname = "Jõao",
                 Lastname = "Benfica",
                 RoleId = context.Roles.Where(r => r.RoleId == RolesEnum.User).Select(r => r.Id).FirstOrDefault(),
                 Email = "joaobenfica@0000.com",
@@ -132,7 +132,7 @@ public static class Seeder
             },
             new()
             {
-                FirstName = "Admin",
+                Firstname = "Admin",
                 Lastname = "007",
                 RoleId = context.Roles.Where(r => r.RoleId == RolesEnum.Admin).Select(r => r.Id).FirstOrDefault(),
                 Email = "admin@catalogoprodutos.com",

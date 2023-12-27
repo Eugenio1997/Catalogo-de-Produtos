@@ -13,6 +13,15 @@
 
     <ItemGroup>
       <Compile Remove="Entities\RatingEnum.cs" />
+      <Compile Remove="Models\UserModelRequest\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Models\UserModelRequest\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Models\UserModelRequest\**" />
     </ItemGroup>
 
 </Project>

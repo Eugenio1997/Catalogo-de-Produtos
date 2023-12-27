@@ -1,7 +1,6 @@
 using Domain.Entities;
 using Domain.Enums;
 using Infrastructure.Context;
-using Infrastructure.Context.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductCatalog.Models;
@@ -13,12 +12,12 @@ namespace ProductCatalog.Controllers;
 public sealed class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;
-    private readonly IProductCatalogDbContext _context;
+    private readonly ProductCatalogDbContext _context;
     private const int PageSize = 9;
     
     public ProductController(
         ILogger<ProductController> logger,
-        IProductCatalogDbContext context
+        ProductCatalogDbContext context
         )
     { 
         _logger = logger;
