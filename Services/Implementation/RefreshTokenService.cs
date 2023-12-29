@@ -28,13 +28,14 @@ public class RefreshTokenService: IRefreshTokenService
         
     }
 
-    public async void SaveRefreshTokenAsync(string email, Guid newRefreshToken, CancellationToken cancellationToken)
+    public async Task<bool> SaveRefreshTokenAsync(string email, Guid newRefreshToken, CancellationToken cancellationToken)
     {
         var dbUser = await _context.Users!
             .SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
-        dbUser!.ExpiryTime = DateTime.Now.AddDays(dbUser.RememberMe ? 30 : 1);
-
-        dbUser!.RefreshToken = newRefreshToken;
+        
+            dbUser!.ExpiryTime = DateTime.Now.AddDays(dbUser.RememberMe ? 30 : 1).ToUniversalTime();
+            dbUser!.RefreshToken = newRefreshToken;
+            return true;
     }
 
     public async Task<bool> IsRefreshTokenExpiredAsync(string email, CancellationToken cancellationToken)

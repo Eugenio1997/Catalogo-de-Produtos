@@ -116,17 +116,18 @@ public class AuthController: ControllerBase
     {
         var query = _context.Users!;
         //verificar se há algum usuario na tabela Users cujo email bate com o email vindo do front
-        
-        if (!query
-            .AnyAsync(u => u.Email == requestSigninUserModel.Email.ToLower().Trim(), cancellationToken).Result)
+
+        var emailExists = await query
+            .AnyAsync(u => u.Email == requestSigninUserModel.Email.ToLower().Trim(), cancellationToken);
+
+        if (!emailExists)
         {
             return NotFound("Email not registered, please insert a valid email");
         }
 
-        var dbUser = query
+        var dbUser = await query
             .Include(u => u.Role)
-            .SingleOrDefaultAsync(u => u.Email == requestSigninUserModel.Email, cancellationToken)
-            .Result;
+            .SingleOrDefaultAsync(u => u.Email == requestSigninUserModel.Email, cancellationToken);
 
         //verificar se há algum usuario na tabela Users cujo password bata com o password vindo do front
 
@@ -146,10 +147,13 @@ public class AuthController: ControllerBase
         //Gerar RefreshToken
         
         var refresh_token = _refreshTokenService.GenerateRefreshToken();
-
-        _refreshTokenService.SaveRefreshTokenAsync(dbUser.Email, refresh_token, cancellationToken);
         
-        await _context.SaveChangesAsync(cancellationToken);
+        var isRefreshSaved = await _refreshTokenService.SaveRefreshTokenAsync(dbUser.Email, refresh_token, cancellationToken);
+
+        if (isRefreshSaved)
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
         
         var userCredentials = new ResponseSigninUserModel()
         {
@@ -157,8 +161,10 @@ public class AuthController: ControllerBase
             AccessToken = access_token,
             RefreshToken = dbUser.RefreshToken
         };
-        
+    
         return Ok(userCredentials);
+        
+        
     }
     
     
@@ -198,8 +204,13 @@ public class AuthController: ControllerBase
                 var newRefreshToken = _refreshTokenService.GenerateRefreshToken();
 
                 _refreshTokenService.DeleteRefreshTokenAsync(email, cancellationToken);
+                
+                var isRefreshSaved = await _refreshTokenService.SaveRefreshTokenAsync(email, newRefreshToken, cancellationToken);
 
-                _refreshTokenService.SaveRefreshTokenAsync(email, newRefreshToken, cancellationToken);
+                if (isRefreshSaved)
+                {
+                    await _context.SaveChangesAsync(cancellationToken);
+                }
                 
                 await _context.SaveChangesAsync(cancellationToken);
                 
