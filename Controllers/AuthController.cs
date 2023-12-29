@@ -124,6 +124,7 @@ public class AuthController: ControllerBase
         }
 
         var dbUser = query
+            .Include(u => u.Role)
             .SingleOrDefaultAsync(u => u.Email == requestSigninUserModel.Email, cancellationToken)
             .Result;
 
@@ -170,9 +171,8 @@ public class AuthController: ControllerBase
         /// <returns></returns>
         /// <exception cref="SecurityTokenException"></exception>
         //POST: auth/refresh
-        [HttpPost]
-        [Route("refresh")]
-        [AllowAnonymous]
+        [HttpPost("refresh")]
+        [Authorize(Policy = "User")]
         private async Task<IActionResult> Refresh(RequestRefreshModel requestRefreshModel, CancellationToken cancellationToken)
         {
             var principal = _tokenService.GetPrincipalFromExpiredToken(requestRefreshModel.Token);
