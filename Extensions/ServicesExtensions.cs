@@ -14,4 +14,30 @@ public static class ServicesExtensions
             opts.AddPolicy("User", opt => opt.RequireRole("User"));
         });
     }
+    
+    public static void ConfigureAuthentication(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+
+        var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("SecretKey")!);
+
+        services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(opt =>
+            {
+                opt.RequireHttpsMetadata = false;
+                opt.SaveToken = true;
+                opt.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                };
+            });
+        
+    }
 }

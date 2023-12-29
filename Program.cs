@@ -15,6 +15,7 @@ var config = new ConfigurationBuilder()
 configuration = config.Build();
 
 builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureAuthorization(builder.Configuration);
 
 builder.WebHost.UseKestrel(options =>
@@ -51,6 +52,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
