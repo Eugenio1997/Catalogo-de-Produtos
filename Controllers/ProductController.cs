@@ -1,6 +1,7 @@
 using Domain.Entities;
 using Domain.Enums;
 using Infrastructure.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductCatalog.Models;
@@ -26,6 +27,7 @@ public sealed class ProductController : ControllerBase
     }
     
     [HttpGet]
+    [Authorize(Policy = "User")]
     public async Task<IActionResult> Get(int pageIndex)
     {
         
@@ -46,6 +48,7 @@ public sealed class ProductController : ControllerBase
     }
 
     [HttpGet("byName")]
+    [Authorize(Policy = "User")]
     public Task<IActionResult> GetByName()
     {
         //check if there is a querystring named 'productName'
@@ -102,6 +105,7 @@ public sealed class ProductController : ControllerBase
     }
 
     [HttpGet("orderBy")]
+    [Authorize(Policy = "User")]
     public async Task<IActionResult> GetProductsByPrice(int pageIndex)
     {
         
@@ -132,6 +136,7 @@ public sealed class ProductController : ControllerBase
     }
     
     [HttpPost]
+    [Authorize(Policy = "User")]
     public IActionResult Post(ProductModel productModel)
     {
         if (CheckNameExistence(productModel.Name).Result)

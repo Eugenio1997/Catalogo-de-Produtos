@@ -9,10 +9,9 @@ public class Role
     {
         Users = new List<User>();
     }
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
-    public RolesEnum RoleId { get; set; }
-    public string? Name { get; set; } = null!;
+    public string Name { get; set; } = null!;
     public List<User> Users { get; set; }
     
     

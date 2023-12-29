@@ -1,5 +1,6 @@
 using Infrastructure.Context;
 using ProductCatalog;
+using ProductCatalog.Extensions;
 using ProductCatalog.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,8 @@ var config = new ConfigurationBuilder()
 configuration = config.Build();
 
 builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.ConfigureAuthorization(builder.Configuration);
+
 builder.WebHost.UseKestrel(options =>
 {
     var portVar = Environment.GetEnvironmentVariable("PORT");
@@ -48,6 +51,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

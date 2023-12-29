@@ -84,16 +84,15 @@ public static class Seeder
         {
             new Role()
             {
-                RoleId = RolesEnum.User,
-                Name = Enum.GetName(RolesEnum.User)
+                Id = (int)RolesEnum.User,
+                Name = Enum.GetName(RolesEnum.User)!
             },
             new Role()
             {
-                RoleId = RolesEnum.Admin,
-                Name = Enum.GetName(RolesEnum.Admin)
+                Id = (int)RolesEnum.Admin,
+                Name = Enum.GetName(RolesEnum.Admin)!
             }
         };
-        
         
         context.Roles!.AddRange(roles);
         context.SaveChanges();
@@ -108,7 +107,7 @@ public static class Seeder
             {
                 Firstname = "Eugenio",
                 Lastname = "Lopes",
-                RoleId = context.Roles.Where(r => r.RoleId == RolesEnum.User).Select(r => r.Id).FirstOrDefault(),
+                RoleId = context.Roles.Where(r => r.Name == Enum.GetName(RolesEnum.User)).Select(r => r.Id).FirstOrDefault(),
                 Email = "eugeniolopes@0001.com",
                 Password = "catalogoProdutos123#",
                 RememberMe = true,
@@ -121,7 +120,7 @@ public static class Seeder
             {
                 Firstname = "Jõao",
                 Lastname = "Benfica",
-                RoleId = context.Roles.Where(r => r.RoleId == RolesEnum.User).Select(r => r.Id).FirstOrDefault(),
+                RoleId = context.Roles.Where(r => r.Name == Enum.GetName(RolesEnum.User)).Select(r => r.Id).FirstOrDefault(),
                 Email = "joaobenfica@0000.com",
                 Password = "catalogoProdutos123#",
                 RememberMe = true,
@@ -134,7 +133,7 @@ public static class Seeder
             {
                 Firstname = "Admin",
                 Lastname = "007",
-                RoleId = context.Roles.Where(r => r.RoleId == RolesEnum.Admin).Select(r => r.Id).FirstOrDefault(),
+                RoleId = context.Roles.Where(r => r.Name == Enum.GetName(RolesEnum.Admin)).Select(r => r.Id).FirstOrDefault(),
                 Email = "admin@catalogoprodutos.com",
                 Password = "catalogoProdutos123#",
                 RememberMe = true,

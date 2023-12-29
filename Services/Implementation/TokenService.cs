@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Text;
 using Domain.Entities;
-using Domain.Enums;
 using Infrastructure.Context;
 using Microsoft.IdentityModel.Tokens;
 using ProductCatalog.Services.Abstraction;
@@ -35,6 +34,7 @@ public class TokenService: ITokenService
             var claimsList = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role.Name),
             };
 
             var identity = new ClaimsIdentity(claimsList);
