@@ -84,12 +84,13 @@ public class AuthController: ControllerBase
         var newUser = new User()
         {
             Email = requestSignupUserModel.Email.ToLower().Trim(),
+            Comments = new List<Comment>(),
+            Orders = new List<Order>(),
             Password = requestSignupUserModel.Password,
-            RememberMe = requestSignupUserModel.RememberMe,
             Firstname = requestSignupUserModel.FirstName,
             Lastname = requestSignupUserModel.LastName,
-            CreatedAt = DateTime.Now.ToUniversalTime(),
-            UpdatedAt = DateTime.Now.ToUniversalTime(),
+            CreatedAt = DateTimeOffset.Now.ToUniversalTime(),
+            UpdatedAt = DateTimeOffset.Now.ToUniversalTime(),
             RoleId = _context.Roles!
                 .Where(r => r.Name == Enum.GetName(RolesEnum.User)).Select(r => r.Id)
                 .FirstOrDefault(),
