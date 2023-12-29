@@ -6,7 +6,7 @@ public interface IRefreshTokenService
 {
     public Guid GenerateRefreshToken();
 
-    public Task<bool> DeleteRefreshTokenAsync(string email, CancellationToken cancellationToken);
+    public void DeleteRefreshTokenAsync(string email, CancellationToken cancellationToken);
 
     public void SaveRefreshTokenAsync(string email, Guid newRefreshToken, CancellationToken cancellationToken);
     

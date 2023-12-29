@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ProductCatalog.Services.Abstraction;
-using ProductCatalog.Services.Implementation;
 
 namespace ProductCatalog.Controllers;
 
@@ -140,9 +139,6 @@ public class AuthController: ControllerBase
 
         dbUser.RememberMe = requestSigninUserModel.RememberMe;
         
-        _context.Update(dbUser);
-        await _context.SaveChangesAsync(cancellationToken);
-        
         //Gerar Token
 
         var access_token = _tokenService.GenerateToken(dbUser);
@@ -152,7 +148,9 @@ public class AuthController: ControllerBase
         var refresh_token = _refreshTokenService.GenerateRefreshToken();
 
         _refreshTokenService.SaveRefreshTokenAsync(dbUser.Email, refresh_token, cancellationToken);
-
+        
+        await _context.SaveChangesAsync(cancellationToken);
+        
         var userCredentials = new ResponseSigninUserModel()
         {
             Id = dbUser.Id,
@@ -182,6 +180,9 @@ public class AuthController: ControllerBase
             var dbUser = await _context.Users!.AsNoTracking()
                     .SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
 
+            if (dbUser == null)
+                return NotFound();
+            
             var savedRefreshToken = await _refreshTokenService.GetRefreshTokenAsync(email, cancellationToken);
 
             if (savedRefreshToken == null)
@@ -196,13 +197,12 @@ public class AuthController: ControllerBase
 
                 var newRefreshToken = _refreshTokenService.GenerateRefreshToken();
 
-                await _refreshTokenService.DeleteRefreshTokenAsync(email, cancellationToken);
+                _refreshTokenService.DeleteRefreshTokenAsync(email, cancellationToken);
 
                 _refreshTokenService.SaveRefreshTokenAsync(email, newRefreshToken, cancellationToken);
-
-                if (dbUser == null)
-                    return NotFound();
-
+                
+                await _context.SaveChangesAsync(cancellationToken);
+                
                 return Ok(new ResponseRefreshModel(dbUser.Email, dbUser.RefreshToken, newAccessToken)
                 );
 
