@@ -114,6 +114,7 @@ public class AuthController: ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Signin(RequestSigninUserModel requestSigninUserModel ,CancellationToken cancellationToken)
     {
+        
         var query = _context.Users!;
         //verificar se há algum usuario na tabela Users cujo email bate com o email vindo do front
 
@@ -177,7 +178,7 @@ public class AuthController: ControllerBase
         /// <exception cref="SecurityTokenException"></exception>
         //POST: auth/refresh
         [HttpPost("refresh")]
-        [Authorize(Policy = "User")]
+        [AllowAnonymous]
         private async Task<IActionResult> Refresh(RequestRefreshModel requestRefreshModel, CancellationToken cancellationToken)
         {
             var principal = _tokenService.GetPrincipalFromExpiredToken(requestRefreshModel.Token);

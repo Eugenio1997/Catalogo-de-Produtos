@@ -27,7 +27,7 @@ public sealed class ProductController : ControllerBase
     }
     
     [HttpGet]
-    [Authorize(Policy = "User")]
+    [AllowAnonymous]
     public async Task<IActionResult> Get(int pageIndex)
     {
         
@@ -48,7 +48,7 @@ public sealed class ProductController : ControllerBase
     }
 
     [HttpGet("byName")]
-    [Authorize(Policy = "User")]
+    [AllowAnonymous]
     public Task<IActionResult> GetByName()
     {
         //check if there is a querystring named 'productName'
@@ -105,7 +105,7 @@ public sealed class ProductController : ControllerBase
     }
 
     [HttpGet("orderBy")]
-    [Authorize(Policy = "User")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetProductsByPrice(int pageIndex)
     {
         
@@ -136,7 +136,7 @@ public sealed class ProductController : ControllerBase
     }
     
     [HttpPost]
-    [Authorize(Policy = "User")]
+    [AllowAnonymous]
     public IActionResult Post(ProductModel productModel)
     {
         if (CheckNameExistence(productModel.Name).Result)
