@@ -1,0 +1,49 @@
+
+<form [formGroup]="authForm" class="signin-form" (ngSubmit)="signin()">
+  <section class="logo row">
+    <img ngSrc="./assets/logo-32x32.svg" alt="Catálogo de Produtos" height="43" width="43">
+  </section>
+  <section class="header row">
+    <h3>Entrar</h3>
+  </section>
+  <section class="input-container">
+    <label for="email" class="form-label">Email *</label>
+    <input formControlName="email" type="text" class="form-control" name="email" id="email">
+    <div id="EmailHelp" class="form-text hint-font-size ">Digite o email</div>
+    <div *ngIf="authForm.get('email')?.errors?.required && authForm.get('email')?.touched" class="alert alert-danger">
+      Email é obrigatório
+    </div>
+    <div *ngIf="authForm.get('email')?.errors?.email && authForm.get('email')?.touched" class="alert alert-danger">
+      Email inválido
+    </div>
+  </section>
+  <section class="input-container">
+    <label for="password" class="form-label">Password *</label>
+    <input  #password formControlName="password" type="password" class="form-control" id="password">
+    <div id="PasswordHelp" class="form-text hint-font-size">Digite o password</div>
+    <div *ngIf="authForm.get('password')?.errors?.required && authForm.get('password')?.touched" class="alert alert-danger">
+      Password é obrigatório
+    </div>
+    <div *ngIf="authForm.get('password')?.errors?.pattern && authForm.get('password')?.touched" class="alert alert-danger">
+      Deve ter, no mínimo, 8 caracteres sendo 1 minúsculo, maiúsculo, especial e numérico.
+    </div>
+  </section>
+  <section id="rememberMe" class="input-container input-group">
+    <div class="rememberMe-label-container">
+      <label for="rememberMe" class="form-label">Remember</label>
+    </div>
+    <div class="rememberMe-input-container">
+      <input [placeholder]="''"  #rememberMe formControlName="rememberMe" type="checkbox" class="form-control rememberMe-input">
+    </div>
+  </section>
+  <section class="link-e-submit-btn row">
+    <div class="link-container">
+      <a class="link" [routerLink]="['/']">
+        <span>Criar Conta</span>
+      </a>
+    </div>
+    <div class="btn-container">
+      <button [disabled]="!authForm.valid" type="submit" class="btn btn-primary">Entrar</button>
+    </div>
+  </section>
+</form>
