@@ -1,9 +1,7 @@
 import {
   Component,
-  Inject,
   OnDestroy, OnInit,
 } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {ProductService} from "@components/product/product.service";
 import {Subject, takeUntil} from "rxjs";
 import {Product} from "@interfaces/product";
@@ -27,8 +25,6 @@ export class ProductListComponent implements OnDestroy, OnInit {
   public pageIndex = 1;
   public totalPages: number = 1;
   public totalCount!: number;
-  private _baseUrl: string;
-  private _http: HttpClient;
   public searchInput: string = '';
   public hasProducts!: boolean;
   private notifier = new Subject()
@@ -36,13 +32,7 @@ export class ProductListComponent implements OnDestroy, OnInit {
   public selectFilterOption!: {label: string, value: string};
   public readonly orderingTypes: any = ordenation.types;
 
-  constructor(http: HttpClient,
-              @Inject('BASE_URL') baseUrl: string,
-              private productService: ProductService
-  ) {
-    this._http = http;
-    this._baseUrl = baseUrl;
-  }
+  constructor(private productService: ProductService) {}
 
 
   ngOnInit() {

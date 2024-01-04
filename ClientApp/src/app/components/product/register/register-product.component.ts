@@ -1,8 +1,7 @@
 import {
   ChangeDetectorRef,
   Component, OnDestroy,
-  OnInit,
-  Renderer2
+  OnInit
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ProductService} from "@components/product/product.service";
@@ -22,7 +21,6 @@ export class RegisterProductComponent implements OnInit, OnDestroy{
 
   //properties
   public parentModalContent!: { title: string; body: string; buttonBackground: string  };
-  private _router: Router;
   public isModalOpen: boolean = false;
   public screenWidth: number = 0;
   private notifier = new Subject()
@@ -31,13 +29,9 @@ export class RegisterProductComponent implements OnInit, OnDestroy{
 
   myForm: FormGroup = this.fb.group({});
   constructor(private fb: FormBuilder,
-              router: Router,
+              private _router: Router,
               private productService: ProductService,
-              private renderer: Renderer2,
-              private changeDetector: ChangeDetectorRef) {
-
-    this._router = router;
-  }
+              private changeDetector: ChangeDetectorRef) {}
 
 
   //hooks

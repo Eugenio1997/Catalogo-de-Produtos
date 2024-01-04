@@ -1,28 +1,19 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from "@angular/common/http";
-import {catchError, Observable, tap} from "rxjs";
+import {Observable} from "rxjs";
 import {FormGroup} from "@angular/forms";
-import {Router} from "@angular/router";
 import {Product} from "@interfaces/product";
 
 @Injectable()
 export class ProductService {
 
   //properties
-  private _router: Router;
-  private readonly _baseUrl: string;
-  private _http: HttpClient;
   public totalPages: number = 1;
   public pageIndex = 1;
   public products: Product[] = [];
   constructor(
-    http: HttpClient,
-    @Inject('BASE_URL') baseUrl: string,
-    router: Router,
-  ) {
-    this._http = http;
-    this._baseUrl = baseUrl;
-    this._router = router;
+    private _http: HttpClient,
+    @Inject('BACKEND_BASE_URL') private _baseUrl: string) {
   }
 
 
