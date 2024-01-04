@@ -47,3 +47,8 @@
     </div>
   </section>
 </form>
+
+
+<app-modal (modal)=" isModalOpen = $event; " *ngIf="isModalOpen "
+           [childModalContent]="parentModalContent" >
+</app-modal>

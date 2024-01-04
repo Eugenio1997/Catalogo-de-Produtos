@@ -43,6 +43,12 @@ export class SigninComponent implements OnInit, AfterContentInit {
     });
   }
 
+  openModal(httpErrorResponse: HttpErrorResponse){
+    this.parentModalContent = {'title': 'Erro', 'body': httpErrorResponse.error, buttonBackground: 'btn-danger btn', fromComponent: 'Signin'}
+    this.isModalOpen = true;
+    this.changeDetector.detectChanges();
+  }
+
   public regExpPassword: RegExp = new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/);
   public authForm: FormGroup = this.fb.group({});
 
@@ -61,7 +67,7 @@ export class SigninComponent implements OnInit, AfterContentInit {
             this._router.navigate(['/'])}),
         takeUntil(this.notifier),
         catchError((httpErrorResponse: HttpErrorResponse): any  => {
-
+          this.openModal(httpErrorResponse);
         })
       )
       .subscribe();
