@@ -4,12 +4,22 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-export function getBaseUrl() {
+const Config = {
+  BASE_URL: "https://localhost:7063/"
+};
+
+export function getBaseUrlFromBackend() {
+  return Config.BASE_URL;
+}
+
+
+export function getBaseUrlFromFrontend() {
   return document.getElementsByTagName('base')[0].href;
 }
 
 const providers = [
-  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
+  { provide: 'FRONTEND_BASE_URL', useFactory: getBaseUrlFromFrontend, deps: []},
+  { provide: 'BACKEND_BASE_URL', useFactory: getBaseUrlFromBackend, deps: []},
 ];
 
 if (environment.production) {
