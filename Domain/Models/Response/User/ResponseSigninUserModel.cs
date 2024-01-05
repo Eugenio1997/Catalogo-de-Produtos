@@ -4,8 +4,7 @@ namespace Domain.Models.Response.User;
 
 public class ResponseSigninUserModel
 {
-
-    [EmailAddress]
+    
     public required int Id { get; set; }
     public string AccessToken { get; set; }
     public Guid RefreshToken { get; set; }
