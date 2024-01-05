@@ -17,6 +17,7 @@ configuration = config.Build();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureAuthorization(builder.Configuration);
+builder.Services.ConfigureCors(builder.Configuration);
 
 builder.WebHost.UseKestrel(options =>
 {
@@ -52,6 +53,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseCors("MyPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
