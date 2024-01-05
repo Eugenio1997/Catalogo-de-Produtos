@@ -38,6 +38,23 @@ public static class ServicesExtensions
                     ValidateAudience = false,
                 };
             });
+    }
+
+    public static void ConfigureCors(this IServiceCollection service, IConfiguration configuration)
+    {
         
+        var hosts = configuration.GetSection("AllowedOrigins").Get<List<string>>();
+
+        service.AddCors(opt =>
+        {
+            opt.AddPolicy("MyPolicy", corsPolicybuilder =>
+            {
+                corsPolicybuilder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins(hosts.ToArray());
+            });
+        });
+
     }
 }
