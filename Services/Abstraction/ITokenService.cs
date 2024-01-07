@@ -6,6 +6,7 @@ namespace ProductCatalog.Services.Abstraction;
 
 public interface ITokenService
 {
-    public string GenerateToken([Optional] User user, [Optional] ClaimsPrincipal claimsPrincipal);
+    public string GenerateTokenOnSignin(User user);
+    public string GenerateNewTokenBasedOnClaimsPrincipal(ClaimsPrincipal claimsPrincipal);
     public ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
 }
