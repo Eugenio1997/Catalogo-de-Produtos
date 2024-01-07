@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 using Domain.Entities;
 using Domain.Enums;
@@ -16,6 +17,7 @@ namespace ProductCatalog.Controllers;
 
 [ApiController]
 [Route("[Controller]")]
+[AllowAnonymous]
 public class AuthController: ControllerBase
 {
     
@@ -63,7 +65,6 @@ public class AuthController: ControllerBase
     /// <returns>CreatedAtAction(nameof(Signup), new { id = newUser.Id }, newUser)</returns>
     //POST: auth/signup
     [HttpPost("signup")]
-    [AllowAnonymous]
     public async Task<IActionResult> Signup(RequestSignupUserModel requestSignupUserModel, CancellationToken cancellationToken)
     {
 
@@ -111,7 +112,6 @@ public class AuthController: ControllerBase
     /// <returns></returns>
     //POST: auth/signin
     [HttpPost("signin")]
-    [AllowAnonymous]
     public async Task<IActionResult> Signin(RequestSigninUserModel requestSigninUserModel ,CancellationToken cancellationToken)
     {
         
@@ -143,7 +143,7 @@ public class AuthController: ControllerBase
         
         //Gerar Token
 
-        var access_token = _tokenService.GenerateToken(dbUser);
+        var access_token = _tokenService.GenerateTokenOnSignin(dbUser);
         
         //Gerar RefreshToken
         
@@ -178,12 +178,13 @@ public class AuthController: ControllerBase
         /// <exception cref="SecurityTokenException"></exception>
         //POST: auth/refresh
         [HttpPost("refresh")]
-        [AllowAnonymous]
-        private async Task<IActionResult> Refresh(RequestRefreshModel requestRefreshModel, CancellationToken cancellationToken)
+        public async Task<IActionResult> Refresh(RequestRefreshModel requestRefreshModel, CancellationToken cancellationToken)
         {
             var principal = _tokenService.GetPrincipalFromExpiredToken(requestRefreshModel.Token);
-            var email = principal.Identity!.Name;
-
+            
+            var userEmailClaim = principal.FindFirst(ClaimTypes.Email);
+            string email = userEmailClaim.Value;
+            
             var dbUser = await _context.Users!.AsNoTracking()
                     .SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
 
@@ -195,12 +196,12 @@ public class AuthController: ControllerBase
             if (savedRefreshToken == null)
                 return NotFound();
 
-            if (Guid.Parse(savedRefreshToken) != requestRefreshModel.RefreshToken)
+            if (savedRefreshToken != requestRefreshModel.RefreshToken)
                 throw new SecurityTokenException("Invalid RefreshToken");
 
             if (await _refreshTokenService.IsRefreshTokenExpiredAsync(email, cancellationToken))
             {
-                var newAccessToken = _tokenService.GenerateToken(null, principal);
+                var newAccessToken = _tokenService.GenerateNewTokenBasedOnClaimsPrincipal(principal);
 
                 var newRefreshToken = _refreshTokenService.GenerateRefreshToken();
 
@@ -220,7 +221,7 @@ public class AuthController: ControllerBase
 
             }
 
-            var _newAccessToken = _tokenService.GenerateToken(null, principal);
+            var _newAccessToken = _tokenService.GenerateNewTokenBasedOnClaimsPrincipal(principal);
 
             var response = new ResponseRefreshModel(dbUser!.Email, dbUser.RefreshToken, _newAccessToken);
             return Ok(response);

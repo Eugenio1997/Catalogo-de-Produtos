@@ -10,6 +10,7 @@ namespace ProductCatalog.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[AllowAnonymous]
 public sealed class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;
@@ -27,7 +28,6 @@ public sealed class ProductController : ControllerBase
     }
     
     [HttpGet]
-    [AllowAnonymous]
     public async Task<IActionResult> Get(int pageIndex)
     {
         
@@ -48,7 +48,6 @@ public sealed class ProductController : ControllerBase
     }
 
     [HttpGet("byName")]
-    [AllowAnonymous]
     public Task<IActionResult> GetByName()
     {
         //check if there is a querystring named 'productName'
@@ -105,7 +104,6 @@ public sealed class ProductController : ControllerBase
     }
 
     [HttpGet("orderBy")]
-    [AllowAnonymous]
     public async Task<IActionResult> GetProductsByPrice(int pageIndex)
     {
         
@@ -136,7 +134,7 @@ public sealed class ProductController : ControllerBase
     }
     
     [HttpPost]
-    [AllowAnonymous]
+    [Authorize(Policy = nameof(RolesEnum.Admin))]
     public IActionResult Post(ProductModel productModel)
     {
         if (CheckNameExistence(productModel.Name).Result)

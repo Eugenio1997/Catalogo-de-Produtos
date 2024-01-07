@@ -36,6 +36,8 @@ public static class ServicesExtensions
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
+                    ClockSkew = new TimeSpan(0),
+                    ValidateLifetime = true,
                 };
             });
     }

@@ -1,5 +1,4 @@
 using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Text;
 using Domain.Entities;
@@ -11,7 +10,7 @@ namespace ProductCatalog.Services.Implementation;
 
 public class TokenService: ITokenService
 {
-    
+    private Byte[] Key;
     private readonly IConfiguration _configuration; 
     private readonly ProductCatalogDbContext _dbContext;
     private readonly JwtSecurityTokenHandler _tokenHandler = new JwtSecurityTokenHandler();
@@ -21,12 +20,11 @@ public class TokenService: ITokenService
     {
         _configuration = configuration;
         _dbContext = dbContext;
+        Key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("SecretKey")!);
     }
     
-    public string GenerateToken([Optional] User user, [Optional] ClaimsPrincipal claimsPrincipal)
+    public string GenerateTokenOnSignin( User user)
     {
-        var key = Encoding.ASCII.GetBytes(_configuration["SecretKey"]!);
-        
         //generate token body for the first time
         if (user != null)
         {
@@ -43,19 +41,32 @@ public class TokenService: ITokenService
             {
                 Subject = new ClaimsIdentity(identity),
                 Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(Key), 
+                    SecurityAlgorithms.HmacSha256Signature)
             };
         }
+       
+        
+        //generating the token
+        var token = _tokenHandler.CreateToken(_tokenDescriptor);
+
+        // Encrypts the token and then it is returned
+        return _tokenHandler.WriteToken(token);
+    }
+
+    public string GenerateNewTokenBasedOnClaimsPrincipal(ClaimsPrincipal claimsPrincipal)
+    {
         //Update the token body with a new Identity which it contains Claims 
-        else
+
+        _tokenDescriptor = new SecurityTokenDescriptor
         {
-            _tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claimsPrincipal.Claims),
-                Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-        }
+            Subject = new ClaimsIdentity(claimsPrincipal.Claims),
+            Expires = DateTime.UtcNow.AddMinutes(30),
+            SigningCredentials = new SigningCredentials(
+                new SymmetricSecurityKey(Key),
+                SecurityAlgorithms.HmacSha256Signature)
+        };
         
         //generating the token
         var token = _tokenHandler.CreateToken(_tokenDescriptor);
@@ -72,8 +83,9 @@ public class TokenService: ITokenService
             ValidateAudience = false,
             ValidateIssuer = false,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["SecretKey"]!)), //    private key/ secret key
-            ValidateLifetime = false,
+            IssuerSigningKey = new SymmetricSecurityKey(Key), //    private key/ secret key
+            ClockSkew = new TimeSpan(0),
+            ValidateLifetime = false
         };
 
         var principal = _tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
