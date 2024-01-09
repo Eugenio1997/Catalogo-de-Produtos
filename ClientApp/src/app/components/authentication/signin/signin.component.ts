@@ -60,7 +60,7 @@ export class SigninComponent implements OnInit, AfterContentInit {
     }
 
     this._authService
-      .signin(this.authForm.value)
+      .signinEndpointCall(this.authForm.value)
       .pipe(
         tap((response) => {
             this._signinService.updateIsSigninInUse$(!this.isSigninInUse);
