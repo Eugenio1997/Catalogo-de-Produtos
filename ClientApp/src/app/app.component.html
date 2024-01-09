@@ -1,15 +1,28 @@
 <div class="container-fluid p-0">
-  <app-header (sidenavToggled)="sidenavStatus = $event"></app-header>
 
-  <main>
-    <app-side-nav (sidenavToggled)="sidenavStatus = $event"
-                  [sidenavStatus]="sidenavStatus"
-    [ngClass]="{'app-side-nav-open': sidenavStatus}">
-    </app-side-nav>
+  <ng-container *ngIf="!isSigninInUse">
+    <app-header (sidenavToggled)="sidenavStatus = $event"></app-header>
+  </ng-container>
 
-    <div class="display-area p-3"
-         [ngClass]="{'display-area-shrink': sidenavStatus}">
-      <router-outlet></router-outlet>
-    </div>
-  </main>
+
+    <main [ngClass]="{'main-on-signin-screen': isSigninInUse, '': !isSigninInUse}">
+
+      <ng-container *ngIf="!isSigninInUse">
+        <app-side-nav (sidenavToggled)="sidenavStatus = $event"
+                      [sidenavStatus]="sidenavStatus"
+        [ngClass]="{'app-side-nav-open': sidenavStatus}">
+        </app-side-nav>
+
+        <div class="display-area p-3"
+             [ngClass]="{'display-area-shrink': sidenavStatus}">
+          <router-outlet></router-outlet>
+        </div>
+      </ng-container>
+
+
+      <ng-container *ngIf="isSigninInUse">
+        <app-signin></app-signin>
+      </ng-container>
+    </main>
+
 </div>
