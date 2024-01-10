@@ -74,6 +74,8 @@
     .link{
       text-align: center;
       text-decoration: none;
+      cursor: pointer;
+      color: #007BFF !important;
     }
       .link > span {
         font-weight: normal;
@@ -100,4 +102,22 @@
   margin-bottom: 0;
   border: 0;
   border-radius: 0.25rem;
+}
+
+@media screen and (max-width: 410px) {
+  .link > span {
+    font-size: .85rem;
+  }
+
+  .btn-container{
+    display: inherit;
+    min-width: 4.563rem;
+    min-height: 2.375rem;
+  }
+  .btn{
+    font-size: .85rem;
+    width: inherit;
+    height: inherit;
+  }
+
 }
