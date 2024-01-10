@@ -14,6 +14,7 @@ import {SigninComponent} from "@components/authentication/signin/signin.componen
 import {AuthModule} from "@components/authentication/auth.module";
 import {SigninService} from "@components/authentication/signin/signin.service";
 import {AuthInterceptor} from "@components/authentication/interceptors/auth.interceptor";
+import {SignupComponent} from "@components/authentication/signup/signup.component";
 
 
 @NgModule({
@@ -31,7 +32,10 @@ import {AuthInterceptor} from "@components/authentication/interceptors/auth.inte
       {path: 'product-list', component: ProductListComponent},
       {path: 'register-product', component: RegisterProductComponent},
       {path: 'signin', component: SigninComponent, pathMatch: 'full'},
+      {path: 'signup', component: SignupComponent, pathMatch: 'full'},
       {path: '', component: ProductListComponent},
+      {path: "**", redirectTo: "product-list" }
+
     ]),
     ReactiveFormsModule
   ],

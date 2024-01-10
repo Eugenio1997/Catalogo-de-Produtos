@@ -19,6 +19,11 @@ main {
   top: 0
 }
 
+.main-on-signup-screen {
+  height: 100%;
+  top: 0
+}
+
   app-side-nav {
     position: absolute;
     left: 0;

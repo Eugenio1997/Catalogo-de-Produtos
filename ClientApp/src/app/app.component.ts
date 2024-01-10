@@ -1,5 +1,9 @@
 import {Component, OnInit} from '@angular/core';
+
+
+import {SignupService} from "@components/authentication/signup/signup.service";
 import {SigninService} from "@components/authentication/signin/signin.service";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +15,10 @@ export class AppComponent implements OnInit{
   title = 'app';
   sidenavStatus: boolean = false!;
   public isSigninInUse: boolean = false;
-  constructor(private _signinService: SigninService) {
+  public isSignupInUse: boolean = false;
+
+  constructor(private _signupService: SignupService,
+  private _signinService: SigninService) {
   }
   ngOnInit(): void {
     this._signinService
@@ -20,5 +27,13 @@ export class AppComponent implements OnInit{
         Promise.resolve()
           .then(() => this.isSigninInUse = newState)
       });
+
+    this._signupService
+      .getIsSignupInUse$()
+      .subscribe(newState => {
+        Promise.resolve()
+          .then(() => this.isSignupInUse = newState)
+      });
   }
+
 }

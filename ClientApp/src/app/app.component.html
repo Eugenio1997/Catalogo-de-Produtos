@@ -1,13 +1,14 @@
 <div class="container-fluid p-0">
 
-  <ng-container *ngIf="!isSigninInUse">
+  <ng-container *ngIf="!isSigninInUse && !isSignupInUse">
     <app-header (sidenavToggled)="sidenavStatus = $event"></app-header>
   </ng-container>
 
 
-    <main [ngClass]="{'main-on-signin-screen': isSigninInUse, '': !isSigninInUse}">
+    <main [ngClass]="{'main-on-signin-screen': isSigninInUse, '': !isSigninInUse, 'main-on-signup-screen': isSignupInUse}"
+    >
 
-      <ng-container *ngIf="!isSigninInUse">
+      <ng-container *ngIf="!isSigninInUse && !isSignupInUse">
         <app-side-nav (sidenavToggled)="sidenavStatus = $event"
                       [sidenavStatus]="sidenavStatus"
         [ngClass]="{'app-side-nav-open': sidenavStatus}">
@@ -20,8 +21,12 @@
       </ng-container>
 
 
-      <ng-container *ngIf="isSigninInUse">
+      <ng-container *ngIf="isSigninInUse && !isSignupInUse">
         <app-signin></app-signin>
+      </ng-container>
+
+      <ng-container *ngIf="isSignupInUse && !isSigninInUse">
+        <app-signup></app-signup>
       </ng-container>
     </main>
 
