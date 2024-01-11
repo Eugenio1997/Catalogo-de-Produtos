@@ -1,0 +1,85 @@
+
+<form [formGroup]="signupForm" class="signup-form" (ngSubmit)="signup()">
+  <section class="logo row">
+    <img ngSrc="./assets/logo-32x32.svg" alt="Catálogo de Produtos" height="43" width="43">
+  </section>
+  <section class="header row">
+    <h3>Cadastrar-se</h3>
+  </section>
+  <section class="input-container">
+    <label for="email" class="form-label">Email *</label>
+    <input formControlName="email" type="text" class="form-control" name="email" id="email">
+    <div id="EmailHelp" class="form-text hint-font-size ">Digite o email</div>
+    <div *ngIf="signupForm.get('email')?.errors?.required && signupForm.get('email')?.touched" class="alert alert-danger">
+      Email é obrigatório.
+    </div>
+    <div *ngIf="signupForm.get('email')?.errors?.email && signupForm.get('email')?.touched" class="alert alert-danger">
+      Email inválido.
+    </div>
+  </section>
+  <section class="input-container">
+    <label for="firstName" class="form-label">Nome *</label>
+    <input formControlName="firstName" type="text" class="form-control" name="firstName" id="firstName">
+    <div id="FirstNameHelp" class="form-text hint-font-size ">Digite o Nome</div>
+    <div *ngIf="signupForm.get('firstName')?.errors?.required && signupForm.get('firstName')?.touched" class="alert alert-danger">
+      Nome é obrigatório
+    </div>
+    <div *ngIf="signupForm.get('firstName')?.errors?.minlength && signupForm.get('firstName')?.touched" class="alert alert-danger">
+      Nome deve ter pelo menos 3 caracteres.
+    </div>
+    <div *ngIf="signupForm.get('firstName')?.errors?.maxlength && signupForm.get('firstName')?.touched" class="alert alert-danger">
+      Nome deve ter no máximo 12 caracteres.
+    </div>
+  </section>
+  <section class="input-container">
+    <label for="lastName" class="form-label">Sobrenome *</label>
+    <input formControlName="lastName" type="text" class="form-control" name="firstName" id="lastName">
+    <div id="LastNameHelp" class="form-text hint-font-size ">Digite o sobrenome</div>
+    <div *ngIf="signupForm.get('lastName')?.errors?.required && signupForm.get('lastName')?.touched" class="alert alert-danger">
+      Sobrenome é obrigatório.
+    </div>
+    <div *ngIf="signupForm.get('lastName')?.errors?.minlength && signupForm.get('lastName')?.touched" class="alert alert-danger">
+      Sobrenome deve ter pelo menos 3 caracteres.
+    </div>
+    <div *ngIf="signupForm.get('lastName')?.errors?.maxlength && signupForm.get('lastName')?.touched" class="alert alert-danger">
+      Sobrenome deve ter no máximo 12 caracteres.
+    </div>
+  </section>
+  <section class="input-container">
+    <label for="password" class="form-label">Senha *</label>
+    <input #password formControlName="password" type="password" class="form-control" id="password">
+    <div id="PasswordHelp" class="form-text hint-font-size">Digite a senha</div>
+    <div *ngIf="signupForm.get('password')?.errors?.required && signupForm.get('password')?.touched" class="alert alert-danger">
+      Senha é obrigatória.
+    </div>
+    <div *ngIf="signupForm.get('password')?.errors?.pattern && signupForm.get('password')?.touched" class="alert alert-danger">
+      Deve ter, no mínimo, 8 caracteres sendo 1 minúsculo, maiúsculo, especial e numérico.
+    </div>
+  </section>
+  <section class="input-container">
+    <label for="confirmPassword" class="form-label">Confirme a senha *</label>
+    <input #confirmPassword formControlName="confirmPassword" type="password" class="form-control" id="confirmPassword">
+    <div id="confirmPasswordHelp" class="form-text hint-font-size">Insira novamente a senha</div>
+    <div *ngIf="signupForm.get('confirmPassword')?.errors?.required && signupForm.get('confirmPassword')?.touched" class="alert alert-danger">
+      Confirmação da senha é obrigatório.
+    </div>
+    <div *ngIf="signupForm.get('confirmPassword')?.errors?.passwordMatchValidator && signupForm.get('confirmPassword')?.touched" class="alert alert-danger">
+      Senhas não correspondem.
+    </div>
+  </section>
+  <section class="link-e-submit-btn row">
+    <div class="link-container">
+      <a class="link" (click)="displaySigninScreen()">
+        <span>Já possui conta? Entre.</span>
+      </a>
+    </div>
+    <div class="btn-container">
+      <button [disabled]="!signupForm.valid" type="submit" class="btn btn-primary">Cadastrar</button>
+    </div>
+  </section>
+</form>
+
+
+<app-modal (modal)=" isModalOpen = $event; " *ngIf="isModalOpen "
+           [childModalContent]="parentModalContent" >
+</app-modal>

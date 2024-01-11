@@ -1,0 +1,123 @@
+:host{
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  position: relative;
+  min-width: 21em;
+  padding: 1em;
+  background-color: white;
+}
+
+.signin-form{
+  flex-flow: column wrap;
+  width: 30rem;
+  min-height: 31.25rem;
+  min-width: inherit;
+  border-radius: .5rem;
+  align-self: center;
+  padding: 2rem;
+  border: 1px solid lightgrey;
+}
+
+.logo, .header{
+  margin-left: 0;
+  margin-right: 0;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.input-container{
+  padding: 0.5rem;
+}
+
+#rememberMe{
+  width: 50%;
+  min-width: 12.5rem;
+}
+.rememberMe-label-container{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  width: 50%;
+}
+  .rememberMe-label-container label{
+    margin: 0;
+  }
+
+.rememberMe-input-container{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 50%;
+}
+  .rememberMe-input{
+    width: 15px;
+    height: 15px;
+  }
+
+.link-e-submit-btn{
+  display: flex;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+  .link-container{
+
+  }
+    .link{
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      color: #007BFF !important;
+    }
+      .link > span {
+        font-weight: normal;
+      }
+.btn-container{
+  min-width: 4.563rem;
+  min-height: 2.375rem;
+}
+  .btn{
+    width: inherit;
+    height: inherit;
+  }
+
+/*  overridden classes*/
+.alert-danger{
+  color: rgb(217,48,37);
+  background-color: inherit;
+  border-color: inherit;
+}
+
+.alert{
+  font-size: 0.75rem;
+  padding: 0;
+  margin-bottom: 0;
+  border: 0;
+  border-radius: 0.25rem;
+}
+
+@media screen and (max-width: 410px) {
+  .link > span {
+    font-size: .85rem;
+  }
+
+  .btn-container{
+    display: inherit;
+    min-width: 4.563rem;
+    min-height: 2.375rem;
+  }
+  .btn{
+    font-size: .85rem;
+    width: inherit;
+    height: inherit;
+  }
+
+}

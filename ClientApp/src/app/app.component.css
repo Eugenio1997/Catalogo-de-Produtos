@@ -14,18 +14,28 @@ main {
   z-index: 1;
 }
 
-app-side-nav {
-  position: absolute;
-  left: 0;
-  width: 60px;
-  height: calc(100vh - 4rem);
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  background-color: var(--sidenav-background, #343a40) !important;
-  border-top: 1px solid white;
-  overflow: hidden;
-  white-space: nowrap;
-  transition: width 250ms ease-in;
+.main-on-signin-screen {
+  height: 100%;
+  top: 0
 }
+
+.main-on-signup-screen {
+  height: 100%;
+  top: 0
+}
+
+  app-side-nav {
+    position: absolute;
+    left: 0;
+    width: 60px;
+    height: calc(100vh - 4rem);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    background-color: var(--sidenav-background, #343a40) !important;
+    border-top: 1px solid white;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: width 250ms ease-in;
+  }
 
 .app-side-nav-open {
   width: 250px !important;
@@ -44,3 +54,4 @@ app-side-nav {
   height: calc(100vh - 4rem);
   left: 250px;
 }
+
