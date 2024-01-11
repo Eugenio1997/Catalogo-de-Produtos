@@ -73,11 +73,11 @@ public class AuthController: ControllerBase
         bool isPasswordValid = ValidatePassword(requestSignupUserModel.Password);
 
         if (!isPasswordValid)
-            return BadRequest($"Password must contain at least 1 special character, 1 numeric character, 1 uppercase character and 1 lowercase character");
+            return BadRequest($"A senha deve conter pelos 1 caractere especial, 1 caractere númerico, 1 letra minúscula e 1 letra maiúscula");
             
         if (query.AnyAsync(u => u.Email == requestSignupUserModel.Email.ToLower().Trim(), cancellationToken).Result)
         {
-            return UnprocessableEntity("Email already exists");
+            return UnprocessableEntity("Email já cadastrado");
         }
         
         
@@ -123,7 +123,7 @@ public class AuthController: ControllerBase
 
         if (!emailExists)
         {
-            return NotFound("Email not registered, please insert a valid email");
+            return NotFound("Email não registrado, por favor insira um email válido");
         }
 
         var dbUser = await query
@@ -134,7 +134,7 @@ public class AuthController: ControllerBase
 
         if(!dbUser!.VerifyPassword(requestSigninUserModel.Password))
         {
-            return NotFound("Password incorrect , please insert a valid password");
+            return NotFound("Senha incorreto , por favor insira uma senha válido");
         }
         
         //Verificar o campo RememberMe e a depender do caso, ao gerar o Token, atribuir uma duração de expiração diferente
@@ -197,7 +197,7 @@ public class AuthController: ControllerBase
                 return NotFound();
 
             if (savedRefreshToken != requestRefreshModel.RefreshToken)
-                throw new SecurityTokenException("Invalid RefreshToken");
+                throw new SecurityTokenException("RefreshToken invalido");
 
             if (await _refreshTokenService.IsRefreshTokenExpiredAsync(email, cancellationToken))
             {
