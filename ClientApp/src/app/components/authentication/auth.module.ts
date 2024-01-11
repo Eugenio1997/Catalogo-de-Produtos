@@ -12,6 +12,7 @@ import {TokenService} from "@components/authentication/shared/services/token.ser
 import {RefreshTokenService} from "@components/authentication/shared/services/refresh-token.service";
 import { SignupComponent } from './signup/signup.component';
 import {SignupService} from "@components/authentication/signup/signup.service";
+import {AuthRoutingModule} from "@components/authentication/auth-routing-module";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {SignupService} from "@components/authentication/signup/signup.service";
     ReactiveFormsModule,
     NgOptimizedImage,
     RouterLink,
-    SharedModule
+    SharedModule,
+    AuthRoutingModule
   ],
   exports: [
     SigninComponent,

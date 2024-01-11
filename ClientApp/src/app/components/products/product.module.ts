@@ -11,7 +11,6 @@ import {ProductCardComponent} from "@components/products/subcomponents/product-c
 import {RegisterProductComponent} from "@components/products/register/register-product.component";
 import {CheckProductTypePipe} from "@components/products/subcomponents/product-card/pipes/check-product-type.pipe";
 import {ProductRoutingModule} from "@components/products/product-routing-module";
-import {ProductListService} from "@components/products/list/product-list.service";
 import {ProductDetailComponent} from "@components/products/detail/product-detail.component";
 
 
@@ -41,7 +40,7 @@ import {ProductDetailComponent} from "@components/products/detail/product-detail
 
   ],
   providers: [
-    ProductService, ProductListService
+    ProductService
   ],
 })
 export class ProductModule { }
