@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Product} from "@interfaces/product";
-import {moneyMask} from "@components/product/helpers/format-currency-helper";
+import {Router} from "@angular/router";
+import {moneyMask} from "@components/products/helpers/format-currency-helper";
 
 @Component({
   selector: 'app-product-card',
@@ -11,6 +12,9 @@ export class ProductCardComponent {
 
   //properties
   @Input() products: Product[] = [];
+  public isProductListInUse: boolean = true;
+
   protected readonly moneyMask = moneyMask;
-  protected readonly Number = Number;
+
+  constructor(private _router: Router) {}
 }
