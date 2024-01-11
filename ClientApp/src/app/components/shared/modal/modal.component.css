@@ -15,3 +15,8 @@
   left: 3.75rem;
   background: rgba(0,0,0,0.5);
 }
+
+.modal-on-signin-component {
+  left: 0;
+  top: 0;
+}
