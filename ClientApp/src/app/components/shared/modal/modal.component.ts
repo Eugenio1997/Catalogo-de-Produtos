@@ -72,9 +72,12 @@ export class ModalComponent implements OnInit, OnChanges{
     this.setClassOnModalBasedOnScreenWidth();
     this.changeDetector.detectChanges();
     this.renderer.setStyle(this.myModal.nativeElement, "display", "block");
-    if(this.childModalContent.fromComponent == 'Signin'){
+
+    if(this.childModalContent.fromComponent == 'Signin')
       this.renderer.addClass(this.myModal.nativeElement, 'modal-on-signin-component');
-    }
+
+    if(this.childModalContent.fromComponent == 'Signup')
+      this.renderer.addClass(this.myModal.nativeElement, 'modal-on-signin-component');
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -57,6 +57,11 @@ export class AuthService {
       )
   }
 
+  public signupEndpointCall(signupFormData: FormGroup): Observable<HttpResponse<ResponseSignin>> {
+    return this._http
+      .post<any>(this.backendBaseUrl + 'auth/' + 'signup', signupFormData, {observe: 'response'})
+  }
+
   public refreshTokenEndpointCall(credentials: RequestRefreshToken): any {
     const body = credentials;
     const headers = new HttpHeaders();

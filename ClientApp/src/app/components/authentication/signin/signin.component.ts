@@ -4,11 +4,12 @@ import {
   OnInit
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {catchError, Subject, takeUntil, tap} from "rxjs";
+import {catchError, Subject, switchMap, takeUntil, tap} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {SigninService} from "@components/authentication/signin/signin.service";
 import {AuthService} from "@components/authentication/shared/services/auth.service";
+import {SignupService} from "@components/authentication/signup/signup.service";
 
 @Component({
   selector: 'app-signin',
@@ -20,7 +21,7 @@ export class SigninComponent implements OnInit, AfterContentInit {
   public parentModalContent!: { title: string; body: string; buttonBackground: string; fromComponent?: string };
   public isModalOpen: boolean = false;
   public isSigninInUse: boolean = true;
-  public isIsLoggedIn: boolean = true;
+  public isSignupInUse: boolean = true;
   public submitted: boolean = false;
   private notifier = new Subject()
 
@@ -28,7 +29,8 @@ export class SigninComponent implements OnInit, AfterContentInit {
               private _authService: AuthService,
               private _signinService: SigninService,
               private _router: Router,
-              private changeDetector: ChangeDetectorRef
+              private changeDetector: ChangeDetectorRef,
+              private _signupService: SignupService
   ) {}
 
   ngOnInit() {
@@ -62,7 +64,7 @@ export class SigninComponent implements OnInit, AfterContentInit {
     this._authService
       .signinEndpointCall(this.authForm.value)
       .pipe(
-        tap((response) => {
+        tap((): any => {
             this._signinService.updateIsSigninInUse$(!this.isSigninInUse);
             this._router.navigate(['/'])}),
         takeUntil(this.notifier),
@@ -72,6 +74,17 @@ export class SigninComponent implements OnInit, AfterContentInit {
       )
       .subscribe();
 
+
+  }
+
+  public displaySignupScreen() {
+    this._signupService
+      .updateIsSignupInUse$(this.isSignupInUse);
+
+    this._signinService
+      .updateIsSigninInUse$(!this.isSigninInUse);
+
+    this._router.navigate(['/signup'])
 
   }
 

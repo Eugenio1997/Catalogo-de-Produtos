@@ -10,11 +10,14 @@ import {SigninService} from "@components/authentication/signin/signin.service";
 import {AuthService} from "@components/authentication/shared/services/auth.service";
 import {TokenService} from "@components/authentication/shared/services/token.service";
 import {RefreshTokenService} from "@components/authentication/shared/services/refresh-token.service";
+import { SignupComponent } from './signup/signup.component';
+import {SignupService} from "@components/authentication/signup/signup.service";
 
 
 @NgModule({
   declarations: [
-    SigninComponent
+    SigninComponent,
+    SignupComponent
   ],
   imports: [
     CommonModule,
@@ -24,8 +27,15 @@ import {RefreshTokenService} from "@components/authentication/shared/services/re
     SharedModule
   ],
   exports: [
-    SigninComponent
+    SigninComponent,
+    SignupComponent
   ],
-  providers: [AuthService, SigninService, TokenService, RefreshTokenService]
+  providers: [
+    AuthService,
+    SigninService,
+    SignupService,
+    TokenService,
+    RefreshTokenService
+  ]
 })
 export class AuthModule { }
