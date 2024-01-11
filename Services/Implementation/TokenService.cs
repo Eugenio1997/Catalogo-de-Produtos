@@ -40,7 +40,7 @@ public class TokenService: ITokenService
             _tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(identity),
-                Expires = DateTime.UtcNow.AddMinutes(30),
+                Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(Key), 
                     SecurityAlgorithms.HmacSha256Signature)
