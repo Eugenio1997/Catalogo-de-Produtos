@@ -20,11 +20,11 @@ public class TokenService: ITokenService
     {
         _configuration = configuration;
         _dbContext = dbContext;
-        Key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("SecretKey")!);
+        Key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("SECRETY_KEY")!);
     }
-    
     public string GenerateTokenOnSignin( User user)
     {
+        
         //generate token body for the first time
         if (user != null)
         {

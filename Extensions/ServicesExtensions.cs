@@ -19,7 +19,8 @@ public static class ServicesExtensions
         IConfiguration configuration)
     {
 
-        var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("SecretKey")!);
+        var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("SECRETY_KEY")!);
+
 
         services.AddAuthentication(opt =>
             {
