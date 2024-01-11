@@ -4,12 +4,12 @@ import {
   OnInit
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {ProductService} from "@components/product/product.service";
 import {catchError, Subject, takeUntil, tap} from "rxjs";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
-import {moneyMask} from "@components/product/helpers/format-currency-helper";
 import product from "@assets/json/product-categories.json";
+import {ProductService} from "@components/products/product.service";
+import {moneyMask} from "@components/products/helpers/format-currency-helper";
 
 
 @Component({
