@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {Product} from "@interfaces/product";
 import {Router} from "@angular/router";
 import {moneyMask} from "@components/products/helpers/format-currency-helper";
+import {Product} from "@interfaces/products/product";
 
 @Component({
   selector: 'app-product-card',

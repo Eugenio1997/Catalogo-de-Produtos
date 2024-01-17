@@ -20,8 +20,7 @@ import {ProductDetailComponent} from "@components/products/detail/product-detail
     ProductCardComponent,
     RegisterProductComponent,
     ProductDetailComponent,
-    CheckProductTypePipe,
-
+    CheckProductTypePipe
   ],
   imports: [
     CommonModule,

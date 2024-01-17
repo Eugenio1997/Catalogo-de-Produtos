@@ -10,6 +10,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import product from "@assets/json/product-categories.json";
 import {ProductService} from "@components/products/product.service";
 import {moneyMask} from "@components/products/helpers/format-currency-helper";
+import {Modal} from "@interfaces/products/detail/product-detail";
 
 
 @Component({
@@ -20,7 +21,7 @@ import {moneyMask} from "@components/products/helpers/format-currency-helper";
 export class RegisterProductComponent implements OnInit, OnDestroy{
 
   //properties
-  public parentModalContent!: { title: string; body: string; buttonBackground: string  };
+  public parentModalContent!: Modal
   public isModalOpen: boolean = false;
   public screenWidth: number = 0;
   private notifier = new Subject()
@@ -70,7 +71,7 @@ export class RegisterProductComponent implements OnInit, OnDestroy{
   }
 
   openModal(httpErrorResponse: HttpErrorResponse){
-    this.parentModalContent = {'title': 'Erro', 'body': httpErrorResponse.error, buttonBackground: 'btn-danger btn'}
+    this.parentModalContent = {'title': 'Erro', 'body': httpErrorResponse.error, buttonBackgroundColor: 'btn-danger btn'}
     this.isModalOpen = true;
     this.changeDetector.detectChanges();
   }

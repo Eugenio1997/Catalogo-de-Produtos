@@ -10,6 +10,7 @@ import {Router} from "@angular/router";
 import {SigninService} from "@components/authentication/signin/signin.service";
 import {AuthService} from "@components/authentication/shared/services/auth.service";
 import {SignupService} from "@components/authentication/signup/signup.service";
+import {Modal} from "@interfaces/products/detail/product-detail";
 
 @Component({
   selector: 'app-signin',
@@ -18,7 +19,7 @@ import {SignupService} from "@components/authentication/signup/signup.service";
 })
 export class SigninComponent implements OnInit, AfterContentInit {
 
-  public parentModalContent!: { title: string; body: string; buttonBackground: string; fromComponent?: string };
+  public parentModalContent!: Modal
   public isModalOpen: boolean = false;
   public isSigninInUse: boolean = true;
   public isSignupInUse: boolean = true;
@@ -46,7 +47,7 @@ export class SigninComponent implements OnInit, AfterContentInit {
   }
 
   openModal(httpErrorResponse: HttpErrorResponse){
-    this.parentModalContent = {'title': 'Erro', 'body': httpErrorResponse.error, buttonBackground: 'btn-danger btn', fromComponent: 'Signin'}
+    this.parentModalContent = {'title': 'Erro', 'body': httpErrorResponse.error, buttonBackgroundColor: 'btn-danger btn', fromComponent: 'Signin'}
     this.isModalOpen = true;
     this.changeDetector.detectChanges();
   }
