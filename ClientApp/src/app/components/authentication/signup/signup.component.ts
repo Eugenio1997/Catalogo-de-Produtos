@@ -7,6 +7,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {AuthService} from "@components/authentication/shared/services/auth.service";
 import {Router} from "@angular/router";
 import {MustMatchValidator} from "@components/authentication/helpers/mustMatchValidator";
+import {Modal} from "@interfaces/products/detail/product-detail";
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +20,7 @@ export class SignupComponent implements OnInit, AfterContentInit{
   public isSignupInUse: boolean = true;
   public isSigninInUse: boolean = true;
 
-  public parentModalContent!: { title: string; body: string; buttonBackground: string; fromComponent?: string };
+  public parentModalContent!: Modal
   public isModalOpen: boolean = false;
   public submitted: boolean = false;
   private notifier = new Subject()
@@ -48,7 +49,7 @@ export class SignupComponent implements OnInit, AfterContentInit{
   }
 
   openModal(httpErrorResponse: HttpErrorResponse){
-    this.parentModalContent = {'title': 'Erro', 'body': httpErrorResponse.error, buttonBackground: 'btn-danger btn', fromComponent: 'Signup'}
+    this.parentModalContent = {'title': 'Erro', 'body': httpErrorResponse.error, buttonBackgroundColor: 'btn-danger btn', fromComponent: 'Signup'}
     this.isModalOpen = true;
     this.changeDetector.detectChanges();
   }

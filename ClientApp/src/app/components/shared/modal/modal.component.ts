@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import {identifyDeviceType} from "@util/getDimensionsUtil";
 import {SidenavService} from "@shared/side-nav/sidenav.service";
+import {Modal} from "@interfaces/products/detail/product-detail";
 
 @Component({
   selector: 'app-modal',
@@ -32,7 +33,7 @@ import {SidenavService} from "@shared/side-nav/sidenav.service";
           </div>
           <div class="modal-footer">
             <button type="button"
-                    [className]="childModalContent.buttonBackground"
+                    [className]="childModalContent.buttonBackgroundColor"
                 >Fechar
             </button>
           </div>
@@ -51,7 +52,7 @@ export class ModalComponent implements OnInit, OnChanges{
   ) {
   }
   //input properties
-  @Input() public childModalContent!: { title: string; body: string; buttonBackground: string; fromComponent?: string };
+  @Input() public childModalContent!: Modal;
 
 
   //getting element from the DOM

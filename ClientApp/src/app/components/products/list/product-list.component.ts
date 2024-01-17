@@ -3,10 +3,9 @@ import {
   OnDestroy, OnInit,
 } from '@angular/core';
 import {Subject, takeUntil} from "rxjs";
-import {Product} from "@interfaces/product";
 import ordenation from "@assets/json/ordering-types.json";
 import {ProductService} from "@components/products/product.service";
-import {ProductListService} from "@components/products/list/product-list.service";
+import {Product} from "@interfaces/products/product";
 
 
 @Component({
@@ -32,24 +31,12 @@ export class ProductListComponent implements OnDestroy, OnInit {
   public orderingValue: string = '';
   public selectFilterOption!: {label: string, value: string};
   public readonly orderingTypes: any = ordenation.types;
-  // public isProductListInUse: boolean = true;
   constructor(
-    private productService: ProductService,
-    private _productListService: ProductListService
+    private productService: ProductService
   ) {}
 
 
   ngOnInit() {
-    // debugger;
-    // this._productListService
-    //   .getProductListInUse$()
-    //   .subscribe(newState => {
-    //     Promise.resolve()
-    //       .then(() => {
-    //         this.isProductListInUse = newState;
-    //         console.log(this.isProductListInUse);
-    //       })
-    //   });
 
     this.orderingValue = this.orderingTypes[1].value;
     this.fetchProductsByOrderingValue(this.orderingValue, this.pageIndex.toString());
