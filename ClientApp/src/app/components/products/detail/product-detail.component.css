@@ -1,0 +1,207 @@
+:host{
+  display: flex;
+  flex-flow: column wrap;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  position: relative;
+  min-width: 55rem;
+  padding: 1rem;
+}
+
+.detail-container{
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+  padding: 1rem;
+}
+
+
+
+  .name{
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    width: 100%;
+    min-height: 20%;
+    border-radius: 0.5rem;
+    padding: 2rem;
+  }
+
+
+  .img-and-info{
+    display: flex;
+    margin: 2rem;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 60%;
+
+  }
+     img {
+      position: relative;
+      padding: 1rem;
+      cursor: pointer;
+      min-height: 25rem;
+      max-height: 25rem;
+      max-width: 25rem;
+      min-width: 25rem;
+    }
+
+    .info-container{
+      display: flex;
+      justify-content: space-evenly;
+      flex-flow: column wrap;
+      position: relative;
+      padding: 1rem;
+      min-height: 25rem;
+      max-height: 25rem;
+      max-width: 29rem;
+      min-width: 29rem;
+    }
+
+      .sold-and-delivered-by{
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        align-items: flex-start;
+        position: relative;
+        width: 100%;
+        min-height: 5rem;
+      }
+        .sold-and-delivered-by span{
+          font-size: 1rem;
+          font-weight: 700;
+        }
+          .sold-and-delivered-by span strong{
+            font-size: 1.1rem;
+            font-weight: 700;
+          }
+
+      .price{
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        align-items: center;
+        color: #404040;
+        font-size: 1.5rem;
+        min-height: 5rem;
+        width: 100%;
+      }
+
+      .addQuantityToCartForm{
+        display: flex;
+        flex-flow: column wrap;
+        min-height: 10rem;
+        min-width: 100%;
+        justify-content: space-evenly;
+      }
+
+        .input-container{
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: flex-start;
+          align-items: center;
+          min-height: 50%;
+        }
+
+          .plus-btn{
+            min-width: 10%;
+            min-height: 50%;
+          }
+
+          .items-quantity-input-container{
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+            width: 20%;
+          }
+
+            .items-quantity-input{
+              width: 90%;
+            }
+
+          .minus-btn{
+            min-width: 10%;
+            min-height: 50%;
+          }
+
+        .add-to-cart {
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-end;
+          width: 100%;
+          min-height: 50%;
+        }
+          .add-to-cart-btn{
+            width: 100%;
+            min-height: 50%;
+            border: 1px solid lightgrey;
+            border-radius: 0.5rem;
+          }
+
+
+  .detailed-description{
+    display: flex;
+    width: 100%;
+    min-height: 20%;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2rem;
+
+  }
+    .title{
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 20%;
+      min-width: 100%;
+    }
+      .title h4 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        line-height: 1.25;
+        margin-bottom: 0;
+        min-height: 100%;
+      }
+
+    .about{
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+      align-items: center;
+      min-height: 80%;
+      overflow-y: visible;
+      min-width: 100%;
+    }
+      .about p {
+        min-height: 100%;
+        font-size: 1rem;
+        line-height: 1.25;
+      }
+
+
+  .alert-container{
+    height: 1rem; width: 50%
+  }
+    .alert{
+      color: #D93025;
+      background-color: inherit;
+      height: 1rem;
+      font-size: 0.75rem;
+      padding: 0;
+      margin-bottom: 0;
+      border-radius: 0.25rem;
+    }
