@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpResponse} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {FormGroup} from "@angular/forms";
-import {Product} from "@interfaces/product";
+import {Product} from "@interfaces/products/product";
 
 @Injectable()
 export class ProductService {
@@ -36,7 +36,13 @@ export class ProductService {
         { observe: 'response' })
   }
 
-  public postProduct(formData: FormGroup){
+  public fetchProductById(productId: number): Observable<HttpResponse<Product>> {
+    return this._http
+      .get<Product>(this._baseUrl + 'product/details?id=' + productId,
+        {observe: 'response'})
+  }
+
+  public postProduct(formData: FormGroup) {
     return this._http.post<Product>(this._baseUrl + 'product',
       formData, {observe: 'response'})
   }
