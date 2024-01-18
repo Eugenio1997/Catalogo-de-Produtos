@@ -10,7 +10,6 @@ namespace ProductCatalog.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[AllowAnonymous]
 public sealed class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;
@@ -126,6 +125,34 @@ public sealed class ProductController : ControllerBase
 
 
     }
+
+    [HttpGet("details")]
+    public async Task<IActionResult> GetProductById()
+    {
+        
+        var idExists = Request.Query
+            .TryGetValue("id", out var productId);
+        
+        if (!idExists)
+        {
+            return await Task.FromResult<IActionResult>(
+                BadRequest("Id de produto não informado. Por favor, informe um id.")
+            );
+        }
+        
+
+        if(await _context.Products!
+            .AnyAsync(p => p.Id.ToString() == productId.ToString()))
+        {
+            var dbProduct = await _context.Products!
+                .SingleOrDefaultAsync(p => p.Id.ToString() == productId.ToString());
+
+            return Ok(dbProduct);
+        }
+
+        return NotFound("Desculpe, mas o produto não foi encontrado");
+    }
+    
     [NonAction]
     private Task<bool> CheckNameExistence(string name)
     {
