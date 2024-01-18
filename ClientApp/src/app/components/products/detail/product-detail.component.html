@@ -2,29 +2,50 @@
 
   <header class="name">
     <h4>
-
+      {{product.name}}
     </h4>
   </header>
 
   <main class="img-and-info">
-    <section class="img-container">
-      <img src="" alt="imagem de produto">
-    </section>
+
+    <img [src]=product.imageRef alt="imagem de {{product.name}}">
     <section class="info-container">
+
       <div class="sold-and-delivered-by">
-        <span>Vendido e entregue por
-          <strong>Catálogo de Produtos</strong>
-        </span>
+          <span>Vendido e entregue por
+            <strong>Catálogo de Produtos</strong>
+          </span>
       </div>
       <div class="price">
-        <span></span>
-      </div>
-      <div class="add-to-cart">
-        <button class="add-to-cart-btn btn btn-info">
-          Adicionar à sacola
-        </button>
+        <span>{{moneyMask(product.price)}}</span>
       </div>
 
+      <form class="addQuantityToCartForm" [formGroup]="addQuantityToCartForm" (ngSubmit)="submit()">
+        <div class="input-container">
+          <button (click)="addToCart()" class="plus-btn btn btn-primary">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <div class="items-quantity-input-container">
+            <input [readOnly]="true" formControlName="addToCartOptions" type="number" class="form-control items-quantity-input" name="addToCartOptions" id="addToCartOptions">
+          </div>
+          <button (click)="removeFromCart()" class="minus-btn btn btn-primary">
+            <i class="fa-solid fa-minus"></i>
+          </button>
+        </div>
+        <div class="alert-container">
+          <div *ngIf="addQuantityToCartForm.get('addToCartOptions')?.errors?.max" class="alert">
+            A quantidade máxima são 20.
+          </div>
+          <div *ngIf="addQuantityToCartForm.get('addToCartOptions')?.errors?.min" class="alert">
+            A quantidade mínima é 1.
+          </div>
+        </div>
+        <div class="add-to-cart">
+          <button type="submit" class="add-to-cart-btn btn btn-primary">
+            Adicionar à sacola
+          </button>
+        </div>
+      </form>
     </section>
   </main>
 
@@ -36,8 +57,15 @@
     </div>
 
     <div class="about">
-      <p></p>
+      <p>
+        {{product.description}}
+      </p>
     </div>
   </footer>
 
 </section>
+
+
+<app-modal (modal)=" isModalOpen = $event; " *ngIf="isModalOpen "
+           [childModalContent]="parentModalContent" >
+</app-modal>
