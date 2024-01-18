@@ -1,12 +1,12 @@
 /* styles applied directly to the app-product-list element/component only */
 :host {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
   overflow-y: scroll;
-  height: 100% !important;
-  min-width: 290px;
+  height: 100%;
+  min-width: 100%;
 }
 
 .product-list-container {
