@@ -32,6 +32,9 @@
         font-weight: bolder;
         font-size: 1.125rem;
     }
+    .card-inStock {
+      margin-bottom: 0.5rem !important;
+    }
 
 @media screen and (min-width: 150px) and (max-width: 400px) {
   .card {

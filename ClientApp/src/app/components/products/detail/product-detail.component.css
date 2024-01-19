@@ -155,12 +155,10 @@
   .detailed-description{
     display: flex;
     width: 100%;
-    min-height: 20%;
     flex-flow: row wrap;
     justify-content: flex-start;
     align-items: center;
     padding: 2rem;
-
   }
     .title{
       display: flex;
@@ -186,20 +184,16 @@
       overflow-y: visible;
       min-width: 100%;
     }
-      .about p {
-        min-height: 100%;
-        font-size: 1rem;
-        line-height: 1.25;
-      }
 
 
   .alert-container{
-    height: 1rem; width: 50%
+    height: 1rem;
+    width: 100%
   }
     .alert{
       color: #D93025;
       background-color: inherit;
-      height: 1rem;
+      height: inherit;
       font-size: 0.75rem;
       padding: 0;
       margin-bottom: 0;
