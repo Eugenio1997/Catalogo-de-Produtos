@@ -6,7 +6,7 @@
   align-items: center;
   overflow-y: scroll;
   height: 100%;
-  min-width: 100%;
+  min-width: 16.875rem;
 }
 
 .product-list-container {
