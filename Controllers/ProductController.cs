@@ -162,7 +162,7 @@ public sealed class ProductController : ControllerBase
     
     [HttpPost]
     [Authorize(Policy = nameof(RolesEnum.Admin))]
-    public IActionResult Post(ProductModel productModel)
+    public async Task<IActionResult> PostAsync(ProductModel productModel)
     {
         if (CheckNameExistence(productModel.Name).Result)
         {
@@ -182,7 +182,8 @@ public sealed class ProductController : ControllerBase
             CreatedAt = DateTimeOffset.Now.ToUniversalTime()
         };
         
-        _context.Set<Product>().AddAsync(product);
+        await _context.Set<Product>().AddAsync(product);
+        await _context.SaveChangesAsync();
         _logger.LogInformation("Produto criado com sucesso.");
         return CreatedAtAction(nameof(Get), new { id = product.Id }, productModel);
     }
