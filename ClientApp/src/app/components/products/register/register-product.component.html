@@ -1,81 +1,89 @@
-<div class="container row d-inline-flex justify-content-center">
-  <form class="animate__animated animate__fadeIn form-register col-12 col-sm-12 col-md-8 col-lg-8 d-inline-flex flex-column mx-0 my-5" [formGroup]="myForm" (ngSubmit)="submit()">
-    <div class="header">
-      <h3>Cadastrar Produto</h3>
-    </div>
-    <div class="mb-3 justify-content-md-center">
-      <label for="name" class="form-label">Nome *</label>
-      <input formControlName="name" type="text" class="form-control" name="name" id="name">
-      <div id="NameHelp" class="form-text hint-font-size ">Digite o nome do produto</div>
-      <div *ngIf="myForm.get('name')?.errors?.required && myForm.get('name')?.touched" class="alert alert-danger">
-        Nome é obrigatório
+<form class="animate__animated animate__fadeIn product-signup-form" [formGroup]="productRegistrationForm" (ngSubmit)="submit()">
+  <section class="header row">
+    <h3>Cadastrar Produto</h3>
+  </section>
+  <section class="input-container">
+    <label for="name" class="form-label">Nome <sup>*</sup></label>
+    <input formControlName="name" type="text" class="form-control" name="name" id="name">
+    <div id="NameHelp" class="form-text hint ">Digite o nome do produto</div>
+    <div class="alert-container">
+      <div *ngIf="productRegistrationForm.get('name')?.errors?.required && productRegistrationForm.get('name')?.touched" class="alert">
+        <sup>*</sup> Nome é obrigatório
       </div>
-      <div *ngIf="myForm.get('name')?.errors?.minlength && myForm.get('name')?.touched" class="alert alert-danger">
-        Nome deve ter no mínimo 3 caracteres
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="price" class="form-label">Preço *</label>
-      <input [placeholder]="priceInputPlaceholder" (input)=" price.value = moneyMask(price.value)"  #price formControlName="price" type="text" class="form-control" id="price">
-      <div id="PriceHelp" class="form-text hint-font-size">Digite o preço do produto</div>
-      <div *ngIf="myForm.get('price')?.errors?.required && myForm.get('price')?.touched" class="alert alert-danger">
-        Preço é obrigatório
-      </div>
-      <div *ngIf="myForm.get('price')?.errors?.min && myForm.get('price')?.touched" class="alert alert-danger">
-        Preço deve ser maior que 0
+      <div *ngIf="productRegistrationForm.get('name')?.errors?.minlength && productRegistrationForm.get('name')?.touched" class="alert">
+        <sup>*</sup> Nome deve ter no mínimo 3 caracteres
       </div>
     </div>
-    <div class="mb-3">
-      <label for="inputType" class="form-label">Tipo *</label>
-      <br>
-      <select formControlName="type" class="form-select col-12 col-sm-12 col-md-12" name="type" id="inputType">
-        <option>-- Selecione a categoria do produto --</option>
-        <option *ngFor="let productType of productTypes" [value]="productType['value']" >
-          {{productType["label"]}}
-        </option>
-      </select>
-      <div *ngIf="myForm.get('type')?.errors?.required && myForm.get('type')?.touched" class="alert alert-danger">
-        Tipo é obrigatório
+  </section>
+  <section class="input-container">
+    <label for="price" class="form-label">Preço <sup>*</sup></label>
+    <input [placeholder]="priceInputPlaceholder" (input)=" price.value = moneyMask(price.value)"  #price formControlName="price" type="text" class="form-control" id="price">
+    <div id="PriceHelp" class="form-text hint">Digite o preço do produto</div>
+    <div class="alert-container">
+      <div *ngIf="productRegistrationForm.get('price')?.errors?.required && productRegistrationForm.get('price')?.touched" class="alert">
+        <sup>*</sup> Preço é obrigatório.
+      </div>
+      <div *ngIf="productRegistrationForm.get('price')?.errors?.min && productRegistrationForm.get('price')?.touched" class="alert">
+        <sup>*</sup> Preço deve ser maior que 0.
       </div>
     </div>
-    <div class="mb-3">
-      <label for="textAreaDescription" class="form-label">Descrição *</label>
-      <textarea formControlName="description" class="form-control" id="textAreaDescription" rows="3"></textarea>
-      <div id="DescriptionHelp" class="form-text hint-font-size">Digite a descrição do produto</div>
-      <div *ngIf="myForm.get('description')?.errors?.required && myForm.get('description')?.touched" class="alert alert-danger">
-        Descrição é obrigatória
+  </section>
+  <section class="input-container" id="dropdown-container">
+    <label for="inputType" class="form-label" id="select-label">Categoria <sup>*</sup></label>
+    <select formControlName="type" class="form-select" name="type" id="inputType">
+      <option>-- Selecione a categoria do produto --</option>
+      <option *ngFor="let category of categories" [value]="category['value']" >
+        {{category["label"]}}
+      </option>
+    </select>
+    <div class="alert-container">
+      <div *ngIf="productRegistrationForm.get('type')?.errors?.required" class="alert">
+        <sup>*</sup> Tipo é obrigatório.
       </div>
-      <div *ngIf="myForm.get('description')?.errors?.minlength && myForm.get('description')?.touched" class="alert alert-danger">
-        Descrição deve ter no mínimo 25 caracteres
-      </div>
-    </div>
-    <div class="mb-3">
-      <label for="inputQuantity" class="form-label">Quantidade *</label>
-      <input formControlName="quantity" type="number" class="form-control" id="inputQuantity">
-      <div id="QuantityHelp" class="form-text hint-font-size">Digite a quantidade de produtos</div>
-      <div *ngIf="myForm.get('quantity')?.errors?.required && myForm.get('quantity')?.touched" class="alert alert-danger">
-        Quantidade é obrigatória
-      </div>
-      <div *ngIf="myForm.get('quantity')?.errors?.min && myForm.get('quantity')?.touched" class="alert alert-danger">
-        Quantidade deve ser maior que 0
+      <div *ngIf="productRegistrationForm.get('type')?.errors?.invalidCategoryName && productRegistrationForm.get('type')?.dirty " class="alert">
+        <sup>*</sup> Categoria inválida.
       </div>
     </div>
-    <div class="mb-3">
-      <label for="inputImageRef" class="form-label">Url da imagem do produto</label>
-      <input formControlName="imageRef" type="text" class="form-control" id="inputImageRef">
-      <div id="ImageRefHelp" class="form-text hint-font-size">Digite a url da imagem do produto</div>
+  </section>
+  <section class="input-container" id="textarea-container">
+    <label for="textAreaDescription" class="form-label">Descrição <sup>*</sup></label>
+    <textarea formControlName="description" class="form-control" id="textAreaDescription" rows="3"></textarea>
+    <div id="DescriptionHelp" class="form-text hint">Digite a descrição do produto</div>
+    <div class="alert-container">
+      <div *ngIf="productRegistrationForm.get('description')?.errors?.required && productRegistrationForm.get('description')?.touched" class="alert">
+        <sup>*</sup> Descrição é obrigatória.
+      </div>
+      <div *ngIf="productRegistrationForm.get('description')?.errors?.minlength " class="alert">
+        <sup>*</sup> Descrição deve ter no mínimo 25 caracteres.
+      </div>
     </div>
-    <br/>
-    <button [disabled]="!myForm.valid" type="submit" class="btn btn-primary w-100 mt-3">Enviar</button>
+  </section>
+  <section class="input-container">
+    <label for="inputQuantity" class="form-label">Quantidade <sup>*</sup></label>
+    <input formControlName="quantity" type="number" class="form-control" id="inputQuantity">
+    <div id="QuantityHelp" class="form-text hint">Digite a quantidade de produtos</div>
+    <div class="alert-container">
+      <div *ngIf="productRegistrationForm.get('quantity')?.errors?.required && productRegistrationForm.get('quantity')?.touched" class="alert">
+        <sup>*</sup> Quantidade é obrigatório.
+      </div>
+      <div *ngIf="productRegistrationForm.get('quantity')?.errors?.min && productRegistrationForm.get('quantity')?.touched" class="alert">
+        <sup>*</sup> Quantidade deve ser maior que 0.
+      </div>
+    </div>
+  </section>
+  <section class="input-container">
+    <label for="inputImageRef" class="form-label">Url da imagem do produto</label>
+    <input formControlName="imageRef" type="text" class="form-control" id="inputImageRef">
+    <div id="ImageRefHelp" class="form-text hint">Digite a url da imagem do produto</div>
+  </section>
+  <div class="btn-container">
+    <button [disabled]="!productRegistrationForm.valid" type="submit" class="btn btn-primary">Enviar</button>
+  </div>
+</form>
 
 
-  </form>
+<app-modal (modal)=" isModalOpen = $event; " *ngIf="isModalOpen "
+           [childModalContent]="parentModalContent" >
+</app-modal>
 
-
-  <app-modal (modal)=" isModalOpen = $event; " *ngIf="isModalOpen "
-             [childModalContent]="parentModalContent" >
-  </app-modal>
-
-
-</div>
 
