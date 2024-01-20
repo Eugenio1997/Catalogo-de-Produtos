@@ -38,7 +38,7 @@
     </select>
     <div class="alert-container">
       <div *ngIf="productRegistrationForm.get('type')?.errors?.required" class="alert">
-        <sup>*</sup> Tipo é obrigatório.
+        <sup>*</sup> Categoria é obrigatório.
       </div>
       <div *ngIf="productRegistrationForm.get('type')?.errors?.invalidCategoryName && productRegistrationForm.get('type')?.dirty " class="alert">
         <sup>*</sup> Categoria inválida.
@@ -60,7 +60,7 @@
   </section>
   <section class="input-container">
     <label for="inputQuantity" class="form-label">Quantidade <sup>*</sup></label>
-    <input formControlName="quantity" type="number" class="form-control" id="inputQuantity">
+    <input (input)="limitToThreeCharacters(quantity.value)" #quantity formControlName="quantity" type="number" class="form-control" id="inputQuantity">
     <div id="QuantityHelp" class="form-text hint">Digite a quantidade de produtos</div>
     <div class="alert-container">
       <div *ngIf="productRegistrationForm.get('quantity')?.errors?.required && productRegistrationForm.get('quantity')?.touched" class="alert">
@@ -68,6 +68,9 @@
       </div>
       <div *ngIf="productRegistrationForm.get('quantity')?.errors?.min && productRegistrationForm.get('quantity')?.touched" class="alert">
         <sup>*</sup> Quantidade deve ser maior que 0.
+      </div>
+      <div *ngIf="productRegistrationForm.get('quantity')?.errors?.invalidMaxQuantity && productRegistrationForm.get('quantity')?.touched" class="alert">
+        <sup>*</sup> Quantidade máxima permitida são de 100.
       </div>
     </div>
   </section>
