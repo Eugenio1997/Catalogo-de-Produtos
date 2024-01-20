@@ -5,7 +5,7 @@ import product from "@assets/json/product-categories.json";
   name: 'checkProductType'
 })
 export class CheckProductTypePipe implements PipeTransform {
-  public readonly productTypes: any = product.types;
+  public readonly productTypes: any = product.categories;
 
   transform(productType: number): string {
 
