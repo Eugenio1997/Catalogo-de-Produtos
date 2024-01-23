@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 import { AppComponent } from './app.component';
+import {CartComponent} from "@components/products/cart/cart.component";
 
 const appRoutes: Routes = [
 
@@ -20,12 +21,12 @@ const appRoutes: Routes = [
     },
     {
       path: '',
-      redirectTo: "products",
+      redirectTo: 'products',
       pathMatch:"full"
     },
     {
       path: '**',
-      redirectTo: "products",
+      redirectTo: 'products',
       pathMatch:"full"
     }
 ]
