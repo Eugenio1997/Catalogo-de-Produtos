@@ -20,15 +20,15 @@
         <span>{{moneyMask(product.price)}}</span>
       </div>
 
-      <form class="addQuantityToCartForm" [formGroup]="addQuantityToCartForm" (ngSubmit)="submit()">
+      <form class="addQuantityToCartForm" [formGroup]="addQuantityToCartForm" (ngSubmit)="AddListItemsToCart()">
         <div class="input-container">
-          <button (click)="addToCart()" class="plus-btn btn btn-primary">
+          <button type="button" (click)="addItemToList()" class="plus-btn btn btn-primary">
             <i class="fa-solid fa-plus"></i>
           </button>
           <div class="items-quantity-input-container">
             <input [readOnly]="true" formControlName="addToCartOptions" type="number" class="form-control items-quantity-input" name="addToCartOptions" id="addToCartOptions">
           </div>
-          <button (click)="removeFromCart()" class="minus-btn btn btn-primary">
+          <button type="button" (click)="removeItemFromList()" class="minus-btn btn btn-primary">
             <i class="fa-solid fa-minus"></i>
           </button>
         </div>
@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="add-to-cart">
-          <button type="submit" class="add-to-cart-btn btn btn-primary">
+          <button class="add-to-cart-btn btn btn-primary">
             Adicionar à sacola
           </button>
         </div>

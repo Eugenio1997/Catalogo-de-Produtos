@@ -1,33 +1,37 @@
-import {AfterContentInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {ActivatedRoute, UrlSegment} from "@angular/router";
+import {AfterContentInit, ChangeDetectorRef, Component, OnChanges, OnInit} from '@angular/core';
+import {ActivatedRoute, Router, UrlSegment} from "@angular/router";
 import {catchError, map, tap, timer} from "rxjs";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
-import {ProductService} from "@components/products/product.service";
 import {moneyMask} from "@components/products/helpers/format-currency-helper";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {
   Actions,
-  Cart,
   ErrorName,
   Modal,
   QuantityOfItems
 } from "@interfaces/products/detail/product-detail";
 import {Product} from "@interfaces/products/product";
+import {ShoppingCart} from "@interfaces/products/cart/cart";
+import {ProductService} from "@components/products/services/product.service";
+import {CartService} from "@components/products/services/cart.service";
 
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css']
 })
-export class ProductDetailComponent implements OnInit, AfterContentInit {
+export class ProductDetailComponent implements OnInit, AfterContentInit, OnChanges {
 
+  public currentItemIndex = 0;
+  public productId: number = 0;
   public product!: Product;
   public parentModalContent!: Modal;
   public isModalOpen: boolean = false;
   public submitted: boolean = false;
-  public cart: Cart = {
-    quantityOfItems: 1,
-    itemInfo: {name: '', price: 0, id: 0}
+  public cart: ShoppingCart = {
+    items: [
+      {itemId: 1, itemQuantity: 1}
+    ]
   };
   public actions: Actions = {add: 'add', rem: 'rem'};
   public errorName: ErrorName = {min: 'min', max: 'max'};
@@ -36,7 +40,9 @@ export class ProductDetailComponent implements OnInit, AfterContentInit {
     private fb: FormBuilder,
     private _activatedRoute: ActivatedRoute,
     private _productService: ProductService,
-    private changeDetector: ChangeDetectorRef) {}
+    private changeDetector: ChangeDetectorRef,
+    private _router: Router,
+    private _cartService: CartService) {}
 
 
     addQuantityToCartForm: FormGroup = this.fb.group({});
@@ -44,9 +50,20 @@ export class ProductDetailComponent implements OnInit, AfterContentInit {
   ngOnInit(): void {
     this._activatedRoute.url
       .subscribe( (urlSegments: UrlSegment[]): any => {
-        const productId = Number(urlSegments[2].path);
-        this.cart.itemInfo.id = productId;
-        this.fetchProductById(productId)
+        this.productId = Number(urlSegments[2].path);
+        this.fetchProductById(this.productId)
+      });
+  }
+
+  ngOnChanges() {
+    // Compare o id da rota atual com o id anterior
+    this._activatedRoute.url
+      .subscribe( (urlSegments: UrlSegment[]): any => {
+
+        const newProductId = Number(urlSegments[2].path);
+        if(this.productId != newProductId){
+          this.currentItemIndex++;
+        }
       });
   }
 
@@ -75,6 +92,7 @@ export class ProductDetailComponent implements OnInit, AfterContentInit {
       .pipe(
         tap( (product: HttpResponse<Product>): any => {
           this.product = product.body as Product;
+          this.cart.items[0].itemId = product.body?.id as number;
         }),
         catchError( (e: HttpErrorResponse): any => {
           this.openModal(e);
@@ -83,13 +101,13 @@ export class ProductDetailComponent implements OnInit, AfterContentInit {
 
   }
 
-  public checkMinAndMaxQuantityOfItems(action: string, errorName: string): boolean{
+  public checkMinAndMaxQuantityOfItems(action: string, errorName: string, itemIndex: number): boolean{
 
-    if(action == this.actions.add && this.cart.quantityOfItems < this.quantityOfItems.max)
+    if(action == this.actions.add && this.cart.items[itemIndex].itemQuantity < this.quantityOfItems.max)
       return true;
 
 
-    if(action == this.actions.rem && this.cart.quantityOfItems > this.quantityOfItems.min)
+    if(action == this.actions.rem && this.cart.items[itemIndex].itemQuantity > this.quantityOfItems.min)
       return true;
 
 
@@ -114,41 +132,47 @@ export class ProductDetailComponent implements OnInit, AfterContentInit {
   }
 
 
-  public addToCart(): void{
+  public addItemToList(): void{
 
-    const canAdd: boolean = this.checkMinAndMaxQuantityOfItems(this.actions.add,this.errorName.max);
+    const canAdd: boolean = this.checkMinAndMaxQuantityOfItems(this.actions.add,this.errorName.max,this.currentItemIndex);
 
     if(canAdd){
-      this.cart.quantityOfItems++
+      this.cart.items[this.currentItemIndex].itemQuantity++;
 
       this.addQuantityToCartForm
         .get("addToCartOptions")
-        ?.setValue(this.cart.quantityOfItems);
-    }
+        ?.setValue(this.cart.items[this.currentItemIndex].itemQuantity);
 
+
+    }
   }
 
-  public removeFromCart(): void{
+  public removeItemFromList(): void{
 
-    const canRem: boolean = this.checkMinAndMaxQuantityOfItems(this.actions.rem,this.errorName.min);
+    const canRem: boolean = this.checkMinAndMaxQuantityOfItems(this.actions.rem,this.errorName.min,this.currentItemIndex);
 
     if(canRem){
-      this.cart.quantityOfItems--;
+      this.cart.items[this.currentItemIndex].itemQuantity--;
+
 
       this.addQuantityToCartForm
         .get("addToCartOptions")
-        ?.setValue(this.cart.quantityOfItems);
+        ?.setValue(this.cart.items[this.currentItemIndex].itemQuantity);
+
     }
   }
 
 
-  public submit() {
+  public AddListItemsToCart() {
 
     this.submitted = true;
 
     if (this.addQuantityToCartForm.invalid)
       return;
 
+    this._cartService.addCartToLocalStorage(this.cart);
+    console.log(`O carrinho => ${JSON.stringify(this.cart)}`);
+    this._router.navigate(['/products/cart']);
 
 
   }
