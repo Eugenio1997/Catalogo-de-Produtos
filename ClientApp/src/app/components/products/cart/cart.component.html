@@ -1,0 +1,76 @@
+<section class="animate__animated animate__fadeIn shopping-cart container d-flex flex-wrap justify-content-center align-items-center">
+  <header class="d-flex flex-nowrap justify-content-start align-items-center font-weight-bold shopping-cart-header">
+    Sacola
+  </header>
+  <main class="shopping-cart-content d-flex flex-wrap justify-content-center align-content-start">
+    <div class="table-responsive w-100 h-100">
+      <table class="table d-flex flex-wrap flex-column justify-content-center align-items-center">
+        <thead class="cart-header d-flex flex-nowrap justify-content-center align-items-center w-100">
+          <tr class="cart-header-row d-flex flex-nowrap w-100">
+            <th class="col-6 header-cell font-weight-bold" scope="col"></th>
+            <th class="col-3 header-cell" scope="col">Quantidades</th>
+            <th class="col-3 header-cell d-flex justify-content-center" scope="col">Preços</th>
+          </tr>
+        </thead>
+
+        <tbody class="cart-items d-flex flex-wrap flex-column w-100 border-top-0 border-bottom-0">
+          <ng-container *ngFor="let item of cart.items; let i = index">
+            <ng-container *ngFor="let product of productsGroup">
+              <ng-container *ngIf="product.id == item.itemId;">
+                  <tr class="cart-item d-flex flex-nowrap justify-content-around align-items-center">
+                    <td class="cart-item-info-and-img p-3 d-flex flex-nowrap justify-content-center align-items-center position-relative">
+                      <img class="position-relative p-3" [src]="product.imageRef" alt="imagem do produto">
+                      <div class="item-info d-flex flex-wrap justify-content-start align-items-center">
+                        <a [routerLink]="['/products/details', product.id]" class="item-name">{{product.name}}</a>
+                      </div>
+                    </td>
+                    <td class="cart-item-quantity p-3 d-flex flex-wrap justify-content-center align-items-center position-relative">
+                      <form class="addQuantityToCartForm d-flex flex-wrap justify-content-center align-items-center" [formGroup]="addQuantityToCartForm">
+                        <div class="input-container d-flex flex-nowrap justify-content-center align-items-center">
+                          <button (click)="incrementItemLineQuantityToList(i)" class="plus-btn d-flex flex-nowrap justify-content-center align-items-center btn btn-primary">
+                            <i class="fa-solid fa-plus"></i>
+                          </button>
+                          <div class="items-quantity-input-container d-flex flex-nowrap justify-content-center align-items-center">
+                            <input [value]="item.itemQuantity" [readOnly]="true" [formControlName]="'addToCartOptions_' + i" type="number" class="form-control items-quantity-input" name="addToCartOptions" id="addToCartOptions">
+                          </div>
+                          <button (click)="decrementLineItemQuantityFromList(i)" class="minus-btn d-flex flex-nowrap justify-content-center align-items-center btn btn-primary">
+                            <i class="fa-solid fa-minus"></i>
+                          </button>
+                        </div>
+                        <div (click)="removeLineItemFromList(item.itemId)" class="quantity-remove mt-2 d-flex flex-nowrap justify-content-center align-items-center">
+                          <span>Excluir Item</span>
+                        </div>
+                        <div class="alert-container d-flex flex-nowrap justify-content-center align-items-center">
+                          <div *ngIf="addQuantityToCartForm.get('addToCartOptions_' + i)?.errors?.max" class="alert">
+                            A quantidade máxima são 20.
+                          </div>
+                          <div *ngIf="addQuantityToCartForm.get('addToCartOptions_' + i)?.errors?.min" class="alert">
+                            A quantidade mínima é 1.
+                          </div>
+                        </div>
+                      </form>
+                    </td>
+                    <td class="cart-item-price d-flex flex-wrap justify-content-center align-items-center position-relative">
+                      {{moneyMask(product.price)}}
+                    </td>
+                  </tr>
+               </ng-container>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <footer class="complete-payment p-4 w-100 d-flex flex-nowrap justify-content-end align-items-center ">
+    <div class="link-and-button w-50 d-flex flex-nowrap justify-content-end align-items-center">
+      <a [routerLink]="['/products']" class="link-to-products-list d-flex flex-nowrap justify-content-center align-items-center">
+        Comprar mais produtos
+      </a>
+      <button (click)="closeOrder()" class="w-50 h-50 btn btn-primary ">
+        Fechar pedido
+      </button>
+    </div>
+  </footer>
+</section>

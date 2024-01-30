@@ -1,0 +1,197 @@
+:host{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  min-width: 55rem;
+  padding: 1rem;
+}
+
+.shopping-cart{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  width: inherit;
+  min-height: 50rem;
+  /*min-width: 100%;*/
+  padding: 1rem;
+}
+
+  .shopping-cart-header{
+    min-height: 20%;
+    min-width: 50rem;
+    padding: 2rem;
+    color: inherit;
+    font-size: 24px;
+    line-height: 48px;
+    background-color: #ffffff;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  .shopping-cart-content{
+    min-height: 60%;
+    min-width: 50rem;
+    padding: 2rem;
+    background-color: #ffffff;
+    border: 1px solid #eeeeee;
+  }
+    .table-responsive {
+      min-height: 100%;
+      min-width: 100% ;
+    }
+      .table{
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        align-items: center;
+      }
+
+        .table thead th {
+          vertical-align: bottom;
+          border-bottom: 0;
+        }
+        .table td, .table th {
+          padding: 0.75rem;
+          vertical-align: top;
+          border-top: 0;
+        }
+        .cart-header{
+
+        }
+          .cart-header-row{
+            border: 1px solid #dee2e6;
+          }
+            .header-cell{
+              color:#404040;
+              font-size: 1rem;
+            }
+
+
+        .cart-items{
+          border: 1px solid #dee2e6;
+        }
+          .cart-item{
+            border-bottom: 1px solid #dee2e6;
+          }
+
+            .cart-item-info-and-img{
+              min-height: 15rem;
+              max-height: 15rem;
+              max-width: 20rem;
+              min-width: 20rem;
+            }
+              img {
+                min-height: 10rem;
+                max-height: 10rem;
+                max-width: 10rem;
+                min-width: 10rem;
+              }
+
+              .item-info {
+                min-height: 10rem;
+                min-width: 10rem;
+              }
+
+                .item-name{
+                  cursor: pointer;
+                  text-decoration: underline;
+                  color: #000000;
+                }
+
+            .cart-item-quantity{
+              min-height: 15rem;
+              max-height: 15rem;
+              max-width: 10rem;
+              min-width: 10rem;
+            }
+              .addQuantityToCartForm{
+                min-height: 100%;
+                min-width: 100%;
+                height: 3rem;
+              }
+                .input-container{
+                  min-width: 100%;
+                  min-height: 100%;
+                }
+
+                .quantity-remove {
+                  color: #8c8c8c;
+                  line-height: 1;
+                  font-size: 0.75rem;
+                  text-decoration: underline;
+                  cursor: pointer;
+                }
+
+                  .plus-btn{
+                    min-width: 2.2rem;
+                    min-height: 2.3rem;
+                  }
+
+                  .items-quantity-input-container{
+                    min-height: 2.3rem;
+                    min-width: 3rem;
+                  }
+
+                    .items-quantity-input{
+                      min-width: 2.5rem;
+                      min-height: 2.3rem;
+                      padding: 0 0 0 0.3rem;
+                      width: 2.5rem;
+                    }
+
+                  .minus-btn{
+                    min-width: 2.2rem;
+                    min-height: 2.3rem;
+                  }
+
+
+            .cart-item-price{
+              padding: 1rem;
+              min-height: 15rem;
+              max-height: 15rem;
+              max-width: 10rem;
+              min-width: 10rem;
+            }
+
+.complete-payment{
+  min-height: 20%;
+  max-width: 50rem ;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+  .link-and-button {
+
+  }
+
+    .link-to-products-list {
+      font-size: .7rem;
+      text-decoration: underline;
+      color: #8C8C8C;
+      width: 40%;
+    }
+
+
+
+.alert-container{
+  min-height: 3rem;
+  max-height: 3rem;
+  width: 100%;
+}
+.alert{
+  color: #D93025;
+  background-color: inherit;
+  height: inherit;
+  font-size: 0.75rem;
+  padding: 0;
+  margin-bottom: 0;
+  border-radius: 0.25rem;
+  border: 0;
+}
