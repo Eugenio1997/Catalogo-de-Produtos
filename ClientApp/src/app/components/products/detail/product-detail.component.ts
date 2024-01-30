@@ -1,6 +1,6 @@
 import {AfterContentInit, ChangeDetectorRef, Component, OnChanges, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, UrlSegment} from "@angular/router";
-import {catchError, map, tap, timer} from "rxjs";
+import {catchError, map, timer} from "rxjs";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {moneyMask} from "@components/products/helpers/format-currency-helper";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -30,7 +30,7 @@ export class ProductDetailComponent implements OnInit, AfterContentInit, OnChang
   public submitted: boolean = false;
   public cart: ShoppingCart = {
     items: [
-      {itemId: 1, itemQuantity: 1}
+      {itemQuantity: 1, itemId: 1}
     ]
   };
   public actions: Actions = {add: 'add', rem: 'rem'};
@@ -90,9 +90,9 @@ export class ProductDetailComponent implements OnInit, AfterContentInit, OnChang
     this._productService
       .fetchProductById(productId)
       .pipe(
-        tap( (product: HttpResponse<Product>): any => {
+        map( (product: HttpResponse<Product>): any => {
           this.product = product.body as Product;
-          this.cart.items[0].itemId = product.body?.id as number;
+          this.cart.items[0].itemId = this.product?.id as number;
         }),
         catchError( (e: HttpErrorResponse): any => {
           this.openModal(e);
@@ -171,7 +171,6 @@ export class ProductDetailComponent implements OnInit, AfterContentInit, OnChang
       return;
 
     this._cartService.addCartToLocalStorage(this.cart);
-    console.log(`O carrinho => ${JSON.stringify(this.cart)}`);
     this._router.navigate(['/products/cart']);
 
 
