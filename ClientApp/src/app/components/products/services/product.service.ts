@@ -1,5 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {BehaviorSubject, Observable} from "rxjs";
 import {FormGroup} from "@angular/forms";
 import {Product} from "@interfaces/products/product";
@@ -45,6 +45,16 @@ export class ProductService {
   public postProduct(formData: FormGroup) {
     return this._http.post<Product>(this._baseUrl + 'product',
       formData, {observe: 'response'})
+  }
+
+  public fetchProductsGroupByIds(idsArray: number[]): Observable<HttpResponse<Product[]>> {
+    const httpHeaders: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this._http
+      .get<Product[]>(this._baseUrl + `product/group?idsList=${idsArray}`,
+        {observe: 'response', headers: httpHeaders })
   }
 
 }

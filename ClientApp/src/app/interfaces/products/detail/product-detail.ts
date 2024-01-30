@@ -1,14 +1,3 @@
-export interface CartItem {
-  name: string;
-  price: number;
-  id: number;
-}
-
-export interface Cart {
-  quantityOfItems: number;
-  itemInfo: CartItem;
-}
-
 export interface Modal {
   title: string;
   body: string;

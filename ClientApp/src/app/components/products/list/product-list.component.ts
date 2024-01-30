@@ -4,8 +4,8 @@ import {
 } from '@angular/core';
 import {Subject, takeUntil} from "rxjs";
 import ordenation from "@assets/json/ordering-types.json";
-import {ProductService} from "@components/products/product.service";
 import {Product} from "@interfaces/products/product";
+import {ProductService} from "@components/products/services/product.service";
 
 
 @Component({
