@@ -141,11 +141,12 @@
           display: flex;
           justify-content: flex-start;
           align-items: flex-end;
-          width: 100%;
+          min-width: 100%;
           min-height: 50%;
+          flex-flow: row nowrap;
         }
           .add-to-cart-btn{
-            width: 100%;
+            min-width: 90%;
             min-height: 50%;
             border: 1px solid lightgrey;
             border-radius: 0.5rem;
