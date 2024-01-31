@@ -1,3 +1,4 @@
+using System.Collections;
 using Domain.Entities;
 using Domain.Enums;
 using Infrastructure.Context;
@@ -186,6 +187,55 @@ public sealed class ProductController : ControllerBase
         await _context.SaveChangesAsync();
         _logger.LogInformation("Produto criado com sucesso.");
         return CreatedAtAction(nameof(Get), new { id = product.Id }, productModel);
+    }
+
+    [HttpGet("group")]
+    public async Task<IActionResult> GetGroupByIds()
+    {
+
+        var idsListExist = Request.Query
+            .TryGetValue("idsList", out var productsIds);
+        
+        if (!idsListExist)
+        {
+            return BadRequest("Forneça os Ids dos produtos que deseja recuperar.");
+        }
+
+        var stringsArr = productsIds.ToString()
+                .Split(",", StringSplitOptions.TrimEntries);
+
+        var intArray = new int [stringsArr.Length];
+
+        for (var i = 0; i < intArray.Length; i++)
+        {
+            if (int.TryParse(stringsArr[i], out var indexValueAsInt))
+            {
+                intArray[i] = indexValueAsInt;
+            }
+            else
+            {
+                Console.WriteLine($"Error ao fazer parse no elemento de índice {i}");
+            }
+        }
+        
+
+        var productsGroup = await _context.Products!
+            .Where(p => intArray.Contains(p.Id))
+            .Select(p => new
+            {
+                p.Price,
+                p.Name,
+                p.ImageRef,
+                p.Id
+            })
+            .ToListAsync();
+
+        if (productsGroup.Count == 0)
+        {
+            return NotFound("Produto(s) não encontrado(s).");
+        }
+        
+        return Ok(productsGroup);
     }
 
 }
