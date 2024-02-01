@@ -1,4 +1,4 @@
-import {AfterContentInit, ChangeDetectorRef, Component, OnChanges, OnInit} from '@angular/core';
+import {AfterContentInit, ChangeDetectorRef, Component, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, UrlSegment} from "@angular/router";
 import {catchError, map, timer} from "rxjs";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
@@ -20,7 +20,7 @@ import {CartService} from "@components/products/services/cart.service";
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css']
 })
-export class ProductDetailComponent implements OnInit, AfterContentInit, OnChanges {
+export class ProductDetailComponent implements OnInit, AfterContentInit, OnChanges, OnDestroy {
 
   public currentItemIndex = 0;
   public productId: number = 0;
@@ -36,6 +36,8 @@ export class ProductDetailComponent implements OnInit, AfterContentInit, OnChang
   public actions: Actions = {add: 'add', rem: 'rem'};
   public errorName: ErrorName = {min: 'min', max: 'max'};
   public quantityOfItems: QuantityOfItems = {min: 1, max: 20};
+  public isCartOnHeader: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private _activatedRoute: ActivatedRoute,
@@ -48,6 +50,11 @@ export class ProductDetailComponent implements OnInit, AfterContentInit, OnChang
     addQuantityToCartForm: FormGroup = this.fb.group({});
 
   ngOnInit(): void {
+    this.isCartOnHeader = true;
+
+    this._cartService
+      .emitDisplayCartOnHeader(this.isCartOnHeader);
+
     this._activatedRoute.url
       .subscribe( (urlSegments: UrlSegment[]): any => {
         this.productId = Number(urlSegments[2].path);
@@ -143,6 +150,7 @@ export class ProductDetailComponent implements OnInit, AfterContentInit, OnChang
         .get("addToCartOptions")
         ?.setValue(this.cart.items[this.currentItemIndex].itemQuantity);
 
+      this._cartService.addCartToLocalStorage(this.cart);
 
     }
   }
@@ -159,6 +167,10 @@ export class ProductDetailComponent implements OnInit, AfterContentInit, OnChang
         .get("addToCartOptions")
         ?.setValue(this.cart.items[this.currentItemIndex].itemQuantity);
 
+
+      this._cartService.addCartToLocalStorage(this.cart);
+
+
     }
   }
 
@@ -170,12 +182,22 @@ export class ProductDetailComponent implements OnInit, AfterContentInit, OnChang
     if (this.addQuantityToCartForm.invalid)
       return;
 
-    this._cartService.addCartToLocalStorage(this.cart);
-    this._router.navigate(['/products/cart']);
+    const itemsTotalOnCart = this._cartService
+      .retrieveTotalQuantityOfItemsOnCart();
+
+    this._cartService
+      .emitTotalQuantityOfItems(itemsTotalOnCart)
 
 
   }
 
+
+  ngOnDestroy(): void {
+    this.isCartOnHeader = false;
+
+    this._cartService
+      .emitDisplayCartOnHeader(this.isCartOnHeader);
+  }
 
 
   protected readonly moneyMask = moneyMask;

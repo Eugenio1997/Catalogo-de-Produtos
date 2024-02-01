@@ -2,13 +2,36 @@ import { Injectable } from '@angular/core';
 import {ShoppingCartItem, ShoppingCart} from "@interfaces/products/cart/cart";
 import {Actions, QuantityOfItems} from "@interfaces/products/detail/product-detail";
 import {FormGroup} from "@angular/forms";
-import {map, timer} from "rxjs";
+import {BehaviorSubject, map, Observable, timer} from "rxjs";
 
 @Injectable()
 export class CartService {
 
   public actions: Actions = {add: 'add', rem: 'rem'};
   public quantityOfItems: QuantityOfItems = {min: 1, max: 20};
+  public isCartOnHeader: boolean = false;
+  public totalQuantityOfItems: number = 0;
+
+  private productDetailOrListingLoaded$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.isCartOnHeader);
+  private totalQuantityOfItems$: BehaviorSubject<number> = new BehaviorSubject<number>(this.totalQuantityOfItems);
+
+
+  public emitDisplayCartOnHeader(isCartOnHeader: boolean): void {
+    this.productDetailOrListingLoaded$.next(isCartOnHeader);
+  }
+
+  public getIsCartDisplayedOnHeader(): Observable<boolean> {
+    return this.productDetailOrListingLoaded$.asObservable();
+  }
+
+  public emitTotalQuantityOfItems(totalQuantityOfItems: number): void {
+    this.totalQuantityOfItems$.next(totalQuantityOfItems);
+  }
+
+  public getTotalQuantityOfItems(): Observable<number> {
+    return this.totalQuantityOfItems$.asObservable();
+  }
+
 
   constructor() {}
 
@@ -138,6 +161,20 @@ export class CartService {
 
     }
 
+  }
+
+  public retrieveTotalQuantityOfItemsOnCart(): number {
+
+    const cart: ShoppingCart = JSON.parse(this.retrieveCartFromLocalStorage());
+
+    let quantityOfEachItem = cart.items
+      .map((item) => item.itemQuantity);
+
+    const itemsTotal= quantityOfEachItem.reduce( (previousValue, currentValue) => {
+      return previousValue + currentValue;
+    });
+
+    return itemsTotal;
   }
 
 }

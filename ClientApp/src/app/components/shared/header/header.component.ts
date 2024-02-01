@@ -1,18 +1,45 @@
-import {Component, EventEmitter, Output, OnInit, HostListener} from '@angular/core';
-import {ScreenDimensionsEnum} from "@enums/screen-dimensions";
-import {identifyDeviceType} from "@util/getDimensionsUtil";
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {CartService} from "@components/products/services/cart.service";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
+
+
+  constructor(private _cartService: CartService) {}
+
+
 
   //properties
+  public notifier = new Subject();
+  public totalQuantityOfItemsOnCart: number = 0;
+  public isProductDetailOrListingLoaded: boolean = false;
   public menuStatus!: boolean;
   public screenWidth: number = 0;
   public deviceType!: Array<{ deviceType: string; isEnable: boolean }>;
+
+  ngOnInit(): void {
+
+    this._cartService
+      .getIsCartDisplayedOnHeader()
+      .subscribe( (isCartDisplayedOnHeader: boolean) => {
+        this.totalQuantityOfItemsOnCart = this._cartService
+            .retrieveTotalQuantityOfItemsOnCart();
+        this.isProductDetailOrListingLoaded = isCartDisplayedOnHeader;
+      });
+
+
+    this._cartService
+      .getTotalQuantityOfItems()
+      .subscribe( (updatedTotalQuantityOfItems) => {
+        this.totalQuantityOfItemsOnCart = updatedTotalQuantityOfItems
+      });
+
+  }
 
 
   //Event Emitters
@@ -23,6 +50,13 @@ export class HeaderComponent {
   public SidenavToggle(): void {
     this.menuStatus = !this.menuStatus;
     this.sidenavToggled.emit(this.menuStatus);
+  }
+
+
+  ngOnDestroy(): void {
+    this.notifier.next(5)
+    this.notifier.complete();
+    this.isProductDetailOrListingLoaded = false;
   }
 
 }
