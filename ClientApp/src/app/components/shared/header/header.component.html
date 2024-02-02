@@ -1,15 +1,27 @@
 <nav class="navbar navbar-expand navbar-light bg-dark px-2">
-  <div (click)="SidenavToggle()" class="side-nav-button p-2 me-3 text-light">
+  <div (click)="SidenavToggle()" class="burger-menu-button d-flex justify-content-center align-items-center p-2 me-3 text-light">
     <i class="fa-solid fa-bars"></i>
   </div>
 
-  <a class="navbar" [routerLink]="['/']">
-    <a class="navbar-brand" [routerLink]="['/']">
+  <a class="logo-and-project-name text-decoration-none navbar d-flex flex-nowrap align-items-center" [routerLink]="['/']">
+    <a class="logo d-flex justify-content-center m-0 navbar-brand" [routerLink]="['/']">
       <img id="logo" ngSrc="./assets/logo-32x32.svg" alt="Catálogo de Produtos" height="43" width="43">
     </a>
-    <span class="text-light">
+    <span class="project-name text-light d-flex flex-nowrap justify-content-center align-items-center">
       Catálogo de Produtos
     </span>
   </a>
-</nav>
+  <div *ngIf="isProductDetailOrListingLoaded" class="shopping-cart d-flex flex-nowrap justify-content-center align-items-center w-100 animate__animated animate__fadeIn">
+    <div class="cart-info text-decoration-none w-75 h-100 d-flex flex-nowrap justify-content-end align-items-center">
+      <a [routerLink]="['/products/cart']" class="cursor-pointer text-decoration-none d-flex flex-nowrap justify-content-center align-items-center">
+        <div class="shopping-cart-icon cursor-pointer h-100 d-flex flex-nowrap justify-content-center align-items-center">
+          <i class="fas fa-shopping-cart d-flex flex-nowrap justify-content-start align-items-center"></i>
+        </div>
+        <div class="shopping-cart-items-quantity">
+          {{totalQuantityOfItemsOnCart}}
+        </div>
+      </a>
+    </div>
+  </div>
 
+</nav>

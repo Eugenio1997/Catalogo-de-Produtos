@@ -6,6 +6,7 @@ import {Subject, takeUntil} from "rxjs";
 import ordenation from "@assets/json/ordering-types.json";
 import {Product} from "@interfaces/products/product";
 import {ProductService} from "@components/products/services/product.service";
+import {CartService} from "@components/products/services/cart.service";
 
 
 @Component({
@@ -17,6 +18,7 @@ export class ProductListComponent implements OnDestroy, OnInit {
 
   //properties
   public searchInputPlaceholder: string = "Digite o nome do produto";
+  public isCartOnHeader: boolean = false;
   public emptyProductsMessage!: string;
   public sidenavStatus!: boolean;
   public screenWidth: number = 0;
@@ -32,11 +34,17 @@ export class ProductListComponent implements OnDestroy, OnInit {
   public selectFilterOption!: {label: string, value: string};
   public readonly orderingTypes: any = ordenation.types;
   constructor(
-    private productService: ProductService
+    private _productService: ProductService,
+    private _cartService: CartService
   ) {}
 
 
   ngOnInit() {
+
+    this.isCartOnHeader = true;
+
+    this._cartService
+      .emitDisplayCartOnHeader(this.isCartOnHeader);
 
     this.orderingValue = this.orderingTypes[1].value;
     this.fetchProductsByOrderingValue(this.orderingValue, this.pageIndex.toString());
@@ -70,7 +78,7 @@ export class ProductListComponent implements OnDestroy, OnInit {
 
 
   fetchProducts(pageIndex:number) {
-    const products = this.productService
+    const products = this._productService
       .fetchProducts(pageIndex)
       .pipe(takeUntil(this.notifier))
       .subscribe((data) => {
@@ -86,7 +94,7 @@ export class ProductListComponent implements OnDestroy, OnInit {
     if(!productName.length)
       return;
 
-    this.productService
+    this._productService
       .fetchProductsByName(productName)
       .pipe(takeUntil(this.notifier))
       .subscribe((data) => {
@@ -105,7 +113,7 @@ export class ProductListComponent implements OnDestroy, OnInit {
   }
 
   fetchProductsByOrderingValue(orderingValue: string, pageIndex: string){
-    this.productService
+    this._productService
       .fetchProductsByOrderingValue(this.makeQuery(orderingValue, pageIndex))
       .pipe(takeUntil(this.notifier))
       .subscribe((data) => {
@@ -118,6 +126,12 @@ export class ProductListComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
+
+    this.isCartOnHeader = false;
+
+    this._cartService
+      .emitDisplayCartOnHeader(this.isCartOnHeader);
+
     this.notifier.next(1);
     this.notifier.complete();
   }

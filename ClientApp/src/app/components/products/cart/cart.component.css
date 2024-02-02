@@ -19,7 +19,6 @@
   align-items: center;
   width: inherit;
   min-height: 50rem;
-  /*min-width: 100%;*/
   padding: 1rem;
 }
 
@@ -159,9 +158,10 @@
               min-width: 10rem;
             }
 
-.complete-payment{
+.close-order{
   min-height: 20%;
-  max-width: 50rem ;
+  min-width: 50rem ;
+  max-width: 50rem;
   padding: 2rem;
   background-color: #ffffff;
   border-radius: 0 0 0.5rem 0.5rem;

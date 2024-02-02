@@ -1,25 +1,66 @@
-nav {
+nav.navbar {
   height: 100%;
+  min-width: 100%;
 }
 
-a.navbar {
-  text-decoration: none !important;
-}
+  .burger-menu-button {
+    font-size: 1.5rem;
+    cursor: pointer;
+    min-width: 2.306rem;
+  }
 
-.side-nav-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.5rem;
+  .burger-menu-button:hover {
+    background-color: #FFFFFF33;
+    border-radius: 30%;
+  }
+
+  .logo-and-project-name {
+    max-width: 16.563rem;
+    min-width: 16.563rem;
+  }
+
+    .logo{
+      min-width: 20%;
+    }
+
+      img#logo {
+        width: 2rem;
+        height: 2rem;
+      }
+
+    .project-name{
+      min-width: 80%;
+    }
+
+
+
+
+  .shopping-cart{
+    min-height: 100%;
+  }
+
+    .cart-info{
+      min-width: 2.648rem;
+    }
+
+      .shopping-cart-icon{
+        min-width: 2.648rem;
+        font-size: 25px;
+        color: #ffffff;
+      }
+
+      .shopping-cart-items-quantity {
+        color: #ffffff;
+        font-size: 1.3rem;
+        min-width: 2.648rem;
+      }
+
+
+
+.cursor-pointer{
   cursor: pointer;
 }
 
-.side-nav-button:hover {
-  background-color: rgba(255,255,255,0.2);
-  border-radius: 30%;
-}
-
-#logo {
-  width: 2rem;
-  height: 2rem;
+.text-decoration-none{
+  text-decoration: none;
 }
