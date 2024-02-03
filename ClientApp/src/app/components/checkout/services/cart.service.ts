@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {ShoppingCartItem, ShoppingCart} from "@interfaces/products/cart/cart";
-import {Actions, QuantityOfItems} from "@interfaces/products/detail/product-detail";
 import {FormGroup} from "@angular/forms";
 import {BehaviorSubject, map, Observable, timer} from "rxjs";
+import {ShoppingCart, ShoppingCartItem} from "@interfaces/products/cart/cart";
+import {Actions, QuantityOfItems} from "@interfaces/products/detail/product-detail";
 
 @Injectable()
 export class CartService {

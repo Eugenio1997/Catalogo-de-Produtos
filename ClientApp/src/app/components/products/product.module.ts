@@ -11,9 +11,7 @@ import {RegisterProductComponent} from "@components/products/register/register-p
 import {CheckProductTypePipe} from "@components/products/subcomponents/product-card/pipes/check-product-type.pipe";
 import {ProductRoutingModule} from "@components/products/product-routing-module";
 import {ProductDetailComponent} from "@components/products/detail/product-detail.component";
-import { CartComponent } from './cart/cart.component';
 import {ProductService} from "@components/products/services/product.service";
-import {CartService} from "@components/products/services/cart.service";
 
 
 @NgModule({
@@ -22,8 +20,7 @@ import {CartService} from "@components/products/services/cart.service";
     ProductCardComponent,
     RegisterProductComponent,
     ProductDetailComponent,
-    CheckProductTypePipe,
-    CartComponent
+    CheckProductTypePipe
   ],
   imports: [
     CommonModule,
@@ -38,12 +35,10 @@ import {CartService} from "@components/products/services/cart.service";
     ProductCardComponent,
     RegisterProductComponent,
     CheckProductTypePipe,
-    ProductDetailComponent,
-    CartComponent
+    ProductDetailComponent
   ],
   providers: [
-    ProductService,
-    CartService
+    ProductService
   ],
 })
 export class ProductModule { }

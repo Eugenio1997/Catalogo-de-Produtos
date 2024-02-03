@@ -6,7 +6,7 @@ import {Subject, takeUntil} from "rxjs";
 import ordenation from "@assets/json/ordering-types.json";
 import {Product} from "@interfaces/products/product";
 import {ProductService} from "@components/products/services/product.service";
-import {CartService} from "@components/products/services/cart.service";
+import {CartService} from "@components/checkout/services/cart.service";
 
 
 @Component({

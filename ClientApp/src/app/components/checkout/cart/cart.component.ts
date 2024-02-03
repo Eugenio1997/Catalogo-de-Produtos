@@ -5,7 +5,6 @@ import {
   OnInit, ViewChild
 } from '@angular/core';
 import {ProductService} from "@components/products/services/product.service";
-import {CartService} from "@components/products/services/cart.service";
 import {ShoppingCart, ShoppingCartItem} from "@interfaces/products/cart/cart";
 import {catchError, map} from "rxjs";
 import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
@@ -13,6 +12,7 @@ import {Product} from "@interfaces/products/product";
 import {moneyMask} from "@components/products/helpers/format-currency-helper";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Actions, ErrorName} from "@interfaces/products/detail/product-detail";
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-cart',

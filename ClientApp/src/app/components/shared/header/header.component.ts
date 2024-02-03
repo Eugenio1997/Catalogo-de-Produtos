@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
-import {CartService} from "@components/products/services/cart.service";
 import {Subject} from "rxjs";
+import {CartService} from "@components/checkout/services/cart.service";
 
 @Component({
   selector: 'app-header',

@@ -13,7 +13,7 @@ import {
 import {Product} from "@interfaces/products/product";
 import {ShoppingCart} from "@interfaces/products/cart/cart";
 import {ProductService} from "@components/products/services/product.service";
-import {CartService} from "@components/products/services/cart.service";
+import {CartService} from "@components/checkout/services/cart.service";
 
 @Component({
   selector: 'app-product-detail',

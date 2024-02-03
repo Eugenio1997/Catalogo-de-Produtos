@@ -12,6 +12,7 @@ import {AuthInterceptor} from "@components/authentication/interceptors/auth.inte
 import {AppRoutingModule} from "./app-routing.module";
 import {RouterOutlet} from "@angular/router";
 import {ProductModule} from "@components/products/product.module";
+import {CheckoutModule} from "@components/checkout/checkout.module";
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import {ProductModule} from "@components/products/product.module";
     FormsModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    RouterOutlet
+    RouterOutlet,
+    CheckoutModule
   ],
   providers: [SigninService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
