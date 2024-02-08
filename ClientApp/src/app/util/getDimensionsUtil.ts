@@ -1,4 +1,3 @@
-import {HostListener} from "@angular/core";
 import {ScreenDimensionsEnum} from "@enums/screen-dimensions";
 
 //variables
@@ -17,7 +16,11 @@ export function identifyDeviceType(innerWidth: number): Array<{ deviceType: stri
     deviceType[1].isEnable = false;
   }
   else if(screenWidth > ScreenDimensionsEnum.tablet &&
-    screenWidth >= ScreenDimensionsEnum.laptop){
+    screenWidth <= ScreenDimensionsEnum.laptop){
+    deviceType[0].isEnable = false;
+    deviceType[1].isEnable = true;
+  }
+  else if(screenWidth > ScreenDimensionsEnum.laptop){
     deviceType[0].isEnable = false;
     deviceType[1].isEnable = true;
   }

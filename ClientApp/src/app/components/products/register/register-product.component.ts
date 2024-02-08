@@ -8,10 +8,10 @@ import {catchError, Subject, takeUntil, tap} from "rxjs";
 import {Router} from "@angular/router";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {moneyMask} from "@components/products/helpers/format-currency-helper";
-import {Modal} from "@interfaces/products/detail/product-detail";
 import {Category} from "@interfaces/products/registration/register-product";
 import {CustomValidators} from "@components/products/helpers/custom-validators";
 import {ProductService} from "@components/products/services/product.service";
+import {Modal} from "@interfaces/modal";
 
 
 @Component({

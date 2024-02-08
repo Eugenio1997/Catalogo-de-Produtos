@@ -1,5 +1,5 @@
 import {
-  AfterContentInit,
+  AfterContentInit, ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit, ViewChild
@@ -13,6 +13,7 @@ import {moneyMask} from "@components/products/helpers/format-currency-helper";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Actions, ErrorName} from "@interfaces/products/detail/product-detail";
 import { CartService } from '../services/cart.service';
+import {Modal} from "@interfaces/modal";
 
 @Component({
   selector: 'app-cart',
@@ -21,6 +22,10 @@ import { CartService } from '../services/cart.service';
 })
 export class CartComponent implements OnInit, AfterContentInit{
 
+  public isModalOpen: boolean = false;
+  public item: {itemName: string, itemId: number} = {itemName: '', itemId: 0}
+  public childModalContent: Modal = {'title': 'Erro', 'body': '', buttonBackgroundColor: 'btn', fromComponent: 'Cart'};
+  public isClickedDeleteButton!: boolean;
   public actions: Actions = {add: 'add', rem: 'rem'};
   public errorName: ErrorName = {min: 'min', max: 'max'};
   public productsIds: number[] = [];
@@ -30,17 +35,23 @@ export class CartComponent implements OnInit, AfterContentInit{
   public productsGroup: Product[] = [];
   constructor(private _productService: ProductService,
               private _cartService: CartService,
-              private fb: FormBuilder) {}
+              private fb: FormBuilder,
+              private changeDetector: ChangeDetectorRef,) {}
 
   ngOnInit(): void {
     this.fetchProductsGroupByIds();
   }
 
+  openModal(titleContent: string, bodyContent: string){
+    this.childModalContent = {'title': titleContent, 'body': bodyContent, buttonBackgroundColor: 'btn', fromComponent: 'Cart'}
+    this.isModalOpen = true;
+    this.changeDetector.detectChanges();
+  }
+
 
   public fetchProductsGroupByIds(){
-    const storedCart: string = this._cartService.retrieveCartFromLocalStorage();
+
     this.cart = {items: []};
-    this.cart.items = JSON.parse(storedCart);
 
     this.cart = JSON.parse(this._cartService
       .retrieveCartFromLocalStorage());
@@ -116,19 +127,30 @@ export class CartComponent implements OnInit, AfterContentInit{
     this.addQuantityToCartForm = this.fb.group(formValues);
   }
 
-  public removeLineItemFromList(itemIdOnLocalStorage: number){
+  public removeLineItemFromList(itemIdOnLocalStorage?: number, itemName?: string){
+    this.item.itemId = Number(itemIdOnLocalStorage);
+    this.item.itemName = String(itemName);
 
-    let updatedCart: ShoppingCartItem[];
+    if(!this.isClickedDeleteButton){
+      this.openModal(`Deletar ${itemName}?`, `Esta ação é permanente e não pode ser desfeita.`);
+    }
+    else{
+      let updatedCart: ShoppingCartItem[];
+      updatedCart = this.cart.items
+        .filter((item: ShoppingCartItem) => item.itemId != this.item.itemId);
 
-    updatedCart = this.cart.items
-      .filter((item: ShoppingCartItem) => item.itemId != itemIdOnLocalStorage);
+      this.cart.items = updatedCart;
 
-    this.cart.items = updatedCart;
+      this._cartService.editCartFromLocalStorage(this.cart);
 
-    this._cartService.editCartFromLocalStorage(this.cart);
+      this.fetchProductsGroupByIds();
+    }
 
-    this.fetchProductsGroupByIds();
+  }
 
+  public onClickDeleteButton(isClickedDeleteButton: boolean){
+    this.isClickedDeleteButton = isClickedDeleteButton;
+    this.removeLineItemFromList(this.item.itemId, this.item.itemName);
   }
 
   public multiplyPriceByQuantity(products: Product[]): Product[]{

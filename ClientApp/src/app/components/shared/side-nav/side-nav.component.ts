@@ -23,6 +23,8 @@ export class SideNavComponent implements OnChanges, OnInit{
   }
 
   ngOnInit(): void {
+    this._sidenavService
+      .setSidenavStatus$(this.sidenavStatus)
     this.onResize();
   }
 

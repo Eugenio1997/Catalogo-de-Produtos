@@ -49,6 +49,6 @@
 </form>
 
 
-<app-modal (modal)=" isModalOpen = $event; " *ngIf="isModalOpen "
-           [childModalContent]="parentModalContent" >
+<app-modal (modal)="isModalOpen = $event; " *ngIf="isModalOpen "
+           [childModalContent]="childModalContent" >
 </app-modal>
