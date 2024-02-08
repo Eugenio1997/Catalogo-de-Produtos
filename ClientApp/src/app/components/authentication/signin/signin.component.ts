@@ -4,13 +4,13 @@ import {
   OnInit
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {catchError, Subject, switchMap, takeUntil, tap} from "rxjs";
+import {catchError, Subject, takeUntil, tap} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {SigninService} from "@components/authentication/signin/signin.service";
 import {AuthService} from "@components/authentication/shared/services/auth.service";
 import {SignupService} from "@components/authentication/signup/signup.service";
-import {Modal} from "@interfaces/products/detail/product-detail";
+import {Modal} from "@interfaces/modal";
 
 @Component({
   selector: 'app-signin',
@@ -19,8 +19,8 @@ import {Modal} from "@interfaces/products/detail/product-detail";
 })
 export class SigninComponent implements OnInit, AfterContentInit {
 
-  public parentModalContent!: Modal
   public isModalOpen: boolean = false;
+  public childModalContent: Modal = {'title': 'Erro', 'body': '', buttonBackgroundColor: 'btn-danger btn', fromComponent: 'Signin'};
   public isSigninInUse: boolean = true;
   public isSignupInUse: boolean = true;
   public submitted: boolean = false;
@@ -47,7 +47,7 @@ export class SigninComponent implements OnInit, AfterContentInit {
   }
 
   openModal(httpErrorResponse: HttpErrorResponse){
-    this.parentModalContent = {'title': 'Erro', 'body': httpErrorResponse.error, buttonBackgroundColor: 'btn-danger btn', fromComponent: 'Signin'}
+    this.childModalContent = {'title': 'Erro', 'body': httpErrorResponse.error, buttonBackgroundColor: 'btn-danger btn', fromComponent: 'Signin'}
     this.isModalOpen = true;
     this.changeDetector.detectChanges();
   }

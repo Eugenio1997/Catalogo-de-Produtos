@@ -7,7 +7,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {AuthService} from "@components/authentication/shared/services/auth.service";
 import {Router} from "@angular/router";
 import {MustMatchValidator} from "@components/authentication/helpers/mustMatchValidator";
-import {Modal} from "@interfaces/products/detail/product-detail";
+import {Modal} from "@interfaces/modal";
 
 @Component({
   selector: 'app-signup',
@@ -20,8 +20,8 @@ export class SignupComponent implements OnInit, AfterContentInit{
   public isSignupInUse: boolean = true;
   public isSigninInUse: boolean = true;
 
-  public parentModalContent!: Modal
   public isModalOpen: boolean = false;
+  public childModalContent: Modal = {'title': 'Erro', 'body': '', buttonBackgroundColor: 'btn-danger btn', fromComponent: 'Signup'};
   public submitted: boolean = false;
   private notifier = new Subject()
   public signupForm: FormGroup = this.fb.group({});
@@ -49,7 +49,7 @@ export class SignupComponent implements OnInit, AfterContentInit{
   }
 
   openModal(httpErrorResponse: HttpErrorResponse){
-    this.parentModalContent = {'title': 'Erro', 'body': httpErrorResponse.error, buttonBackgroundColor: 'btn-danger btn', fromComponent: 'Signup'}
+    this.childModalContent = {'title': 'Erro', 'body': httpErrorResponse.error, buttonBackgroundColor: 'btn-danger btn', fromComponent: 'Signup'}
     this.isModalOpen = true;
     this.changeDetector.detectChanges();
   }

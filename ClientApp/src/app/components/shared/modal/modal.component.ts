@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {identifyDeviceType} from "@util/getDimensionsUtil";
 import {SidenavService} from "@shared/side-nav/sidenav.service";
-import {Modal} from "@interfaces/products/detail/product-detail";
+import {Modal} from "@interfaces/modal";
 
 @Component({
   selector: 'app-modal',
@@ -22,7 +22,7 @@ import {Modal} from "@interfaces/products/detail/product-detail";
          class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog animate__animated animate__fadeInDown" role="document">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header align-items-center">
             <h5 class="modal-title" id="exampleModalLabel">{{childModalContent.title}} </h5>
             <button class="btn" type="button" aria-label="Close">
               <span aria-hidden="true">X</span>
@@ -32,8 +32,15 @@ import {Modal} from "@interfaces/products/detail/product-detail";
             {{childModalContent.body}}
           </div>
           <div class="modal-footer">
-            <button type="button"
-                    [className]="childModalContent.buttonBackgroundColor"
+            <button
+                (click)="removeItem()"
+                class="btn btn-danger"
+                *ngIf="childModalContent.fromComponent == 'Cart'"
+                >Deletar
+            </button>
+            <button
+                class="btn btn-info"
+                [className]="childModalContent.buttonBackgroundColor"
                 >Fechar
             </button>
           </div>
@@ -60,17 +67,17 @@ export class ModalComponent implements OnInit, OnChanges{
 
 
   //properties
-  public sidenavData!: { expanded: string; collapsed: string };
+  public isClickedDeleteButton: boolean = true;
   public sidenavStatus!: boolean;
   public deviceType!: Array<{ deviceType: string; isEnable: boolean }>;
-  public isOpen: boolean = false;
+  public isModalOpen: boolean = false;
   public screenWidth: number = 0;
 
   //hooks
   ngOnInit(): void {
     this.getStatusSidenav();
-    this.isOpen = true;
     this.setClassOnModalBasedOnScreenWidth();
+    this.isModalOpen = true;
     this.changeDetector.detectChanges();
     this.renderer.setStyle(this.myModal.nativeElement, "display", "block");
 
@@ -87,14 +94,22 @@ export class ModalComponent implements OnInit, OnChanges{
 
   //event emitters
   @Output() modal: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() deleteItem: EventEmitter<boolean> = new EventEmitter<boolean>();
 
 
   //methods
-  closeModal(){
-    if(this.isOpen){
-      this.isOpen = false;
+  public closeModal(){
+    if(this.isModalOpen){
+      this.isModalOpen = false;
       this.changeDetector.detectChanges();
-      this.modal.emit(this.isOpen)
+      this.modal.emit(this.isModalOpen)
+    }
+  }
+
+  public removeItem(){
+    if(this.isModalOpen){
+      this.closeModal();
+      this.deleteItem.emit(this.isClickedDeleteButton);
     }
   }
 
@@ -106,6 +121,7 @@ export class ModalComponent implements OnInit, OnChanges{
     this._sidenavService
       .getSidenavStatus$()
       .subscribe( (sidenavStatus: boolean) => {
+        debugger;
         this.sidenavStatus = sidenavStatus;
         if(sidenavStatus){
           this.renderer.removeClass(this.myModal?.nativeElement,"modal-tablet");
@@ -122,13 +138,13 @@ export class ModalComponent implements OnInit, OnChanges{
   //Event listeners
   @HostListener('window:resize')
   onResize(){
+    debugger;
     this.screenWidth = window.innerWidth;
     this.deviceType = identifyDeviceType(this.screenWidth);
     if(this.sidenavStatus){
       this.deviceType[0].isEnable = false;
       this.deviceType[1].isEnable = true;
     }
-
   }
 
 }

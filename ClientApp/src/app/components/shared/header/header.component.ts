@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subject} from "rxjs";
 import {CartService} from "@components/checkout/services/cart.service";
 
@@ -10,7 +10,8 @@ import {CartService} from "@components/checkout/services/cart.service";
 export class HeaderComponent implements OnInit, OnDestroy {
 
 
-  constructor(private _cartService: CartService) {}
+  constructor(private _cartService: CartService,
+              private changeDetector: ChangeDetectorRef) {}
 
 
 
@@ -30,6 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.totalQuantityOfItemsOnCart = this._cartService
             .retrieveTotalQuantityOfItemsOnCart();
         this.isProductDetailOrListingLoaded = isCartDisplayedOnHeader;
+        this.changeDetector.detectChanges();
       });
 
 

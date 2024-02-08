@@ -37,7 +37,7 @@
                             <i class="fa-solid fa-minus"></i>
                           </button>
                         </div>
-                        <div (click)="removeLineItemFromList(item.itemId)" class="quantity-remove mt-2 d-flex flex-nowrap justify-content-center align-items-center">
+                        <div (click)="removeLineItemFromList(item.itemId, product.name)" class="quantity-remove mt-2 d-flex flex-nowrap justify-content-center align-items-center">
                           <span>Excluir Item</span>
                         </div>
                         <div class="alert-container d-flex flex-nowrap justify-content-center align-items-center">
@@ -74,3 +74,9 @@
     </div>
   </footer>
 </section>
+
+<app-modal (modal)="isModalOpen = $event; "
+           (deleteItem)="onClickDeleteButton($event)"
+           *ngIf="isModalOpen "
+           [childModalContent]="childModalContent" >
+</app-modal>

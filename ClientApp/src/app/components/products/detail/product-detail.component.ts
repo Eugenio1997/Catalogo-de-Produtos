@@ -7,13 +7,13 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {
   Actions,
   ErrorName,
-  Modal,
   QuantityOfItems
 } from "@interfaces/products/detail/product-detail";
 import {Product} from "@interfaces/products/product";
 import {ShoppingCart} from "@interfaces/products/cart/cart";
 import {ProductService} from "@components/products/services/product.service";
 import {CartService} from "@components/checkout/services/cart.service";
+import {Modal} from "@interfaces/modal";
 
 @Component({
   selector: 'app-product-detail',
@@ -22,11 +22,11 @@ import {CartService} from "@components/checkout/services/cart.service";
 })
 export class ProductDetailComponent implements OnInit, AfterContentInit, OnChanges, OnDestroy {
 
+  public isModalOpen: boolean = false;
   public currentItemIndex = 0;
   public productId: number = 0;
-  public product!: Product;
-  public parentModalContent!: Modal;
-  public isModalOpen: boolean = false;
+  public product: Product = {id: 0, name: '', price: 0, imageRef: '', type: 0, description: '', quantityInStock: 0};
+  public childModalContent: Modal = {'title': 'Erro', 'body': '', buttonBackgroundColor: 'btn-danger btn', fromComponent: 'Product-Detail'};
   public submitted: boolean = false;
   public cart: ShoppingCart = {
     items: [
@@ -88,7 +88,7 @@ export class ProductDetailComponent implements OnInit, AfterContentInit, OnChang
 
   openModal(e: HttpErrorResponse){
 
-    this.parentModalContent = {title: 'Erro', body: e.error, buttonBackgroundColor: 'btn-danger btn', fromComponent: 'Product-Detail'}
+    this.childModalContent = {title: 'Erro', body: e.error, buttonBackgroundColor: 'btn-danger btn', fromComponent: 'Product-Detail'}
     this.isModalOpen = true;
     this.changeDetector.detectChanges();
   }
