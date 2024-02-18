@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand navbar-light bg-dark px-2">
-  <div (click)="SidenavToggle()" class="burger-menu-button d-flex justify-content-center align-items-center p-2 me-3 text-light">
+  <div (click)="sidenavToggle()" class="burger-menu-button d-flex justify-content-center align-items-center p-2 me-3 text-light">
     <i class="fa-solid fa-bars"></i>
   </div>
 
@@ -13,7 +13,7 @@
   </a>
   <div *ngIf="isProductDetailOrListingLoaded" class="shopping-cart d-flex flex-nowrap justify-content-center align-items-center w-100 animate__animated animate__fadeIn">
     <div class="cart-info text-decoration-none w-75 h-100 d-flex flex-nowrap justify-content-end align-items-center">
-      <a [routerLink]="['/products/cart']" class="cursor-pointer text-decoration-none d-flex flex-nowrap justify-content-center align-items-center">
+      <a [routerLink]="['/products/checkout/cart']" class="cursor-pointer text-decoration-none d-flex flex-nowrap justify-content-center align-items-center">
         <div class="shopping-cart-icon cursor-pointer h-100 d-flex flex-nowrap justify-content-center align-items-center">
           <i class="fas fa-shopping-cart d-flex flex-nowrap justify-content-start align-items-center"></i>
         </div>
