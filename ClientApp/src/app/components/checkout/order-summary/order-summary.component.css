@@ -27,7 +27,6 @@
         line-height: 1.2;
         color: inherit;
         width: 70% !important;
-        padding: 1rem 0;
       }
 
     .order-summary-body{
@@ -97,9 +96,11 @@
 }
 
 
-
 .h-15{
   height: 15% !important;
+}
+.h-10{
+  height: 10% !important;
 }
 .w-5{
   width: 5% !important;

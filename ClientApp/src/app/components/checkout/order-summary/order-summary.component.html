@@ -1,12 +1,12 @@
 <main class="order-summary-container d-flex flex-wrap justify-content-center align-items-center w-100">
-  <header class="row order-summary-header-wrapper d-flex justify-content-start align-items-center w-100 h-20">
-    <div class="col-12 col-md-12 col-lg-12 col-xl-12 order-summary-header d-flex flex-wrap justify-content-start align-items-center w-100 h-25">
+  <header class="row order-summary-header-wrapper d-flex justify-content-start align-items-center w-100 h-15">
+    <div class="col-12 col-md-12 col-lg-12 col-xl-12 order-summary-header d-flex flex-wrap justify-content-start align-items-center w-100 h-100">
       Revisão do Pedido
     </div>
   </header>
 
 
-  <body class="order-summary-body">
+  <body class="order-summary-body h-100 w-100">
     <ng-container *ngFor="let item of cart.items; let i = index">
       <ng-container *ngFor="let product of productsGroup">
         <ng-container *ngIf="product.id == item.itemId;">
@@ -28,7 +28,7 @@
     </ng-container>
   </body>
 
-  <footer class="order-summary-footer w-100 d-flex flex-nowrap justify-content-end align-items-center ">
+  <footer class="order-summary-footer h-10 w-100 d-flex flex-nowrap justify-content-end align-items-center ">
     <div class="order-summary-confirm-btn-wrapper">
       <button (click)="continueToOrderPayment" class="btn btn-primary order-summary-confirm-btn">
         Continuar
