@@ -23,11 +23,11 @@
 }
 
   .shopping-cart-header{
+    font-size: 1.75rem;
     min-height: 20%;
     min-width: 50rem;
     padding: 2rem;
     color: inherit;
-    font-size: 24px;
     line-height: 48px;
     background-color: #ffffff;
     border-radius: 0.5rem 0.5rem 0 0;
