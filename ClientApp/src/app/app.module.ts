@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-
+import { JwtModule } from "@auth0/angular-jwt";
 
 import {AppComponent } from './app.component';
 import {SharedModule} from "@shared/shared.module";
@@ -29,7 +29,14 @@ import {CheckoutModule} from "@components/checkout/checkout.module";
     AppRoutingModule,
     ReactiveFormsModule,
     RouterOutlet,
-    CheckoutModule
+    CheckoutModule,
+    JwtModule.forRoot({
+        config: {
+          tokenGetter:  () => localStorage.getItem("accessToken"),
+          allowedDomains: ["https://localhost:44411"]
+        }
+      }
+    )
   ],
   providers: [SigninService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

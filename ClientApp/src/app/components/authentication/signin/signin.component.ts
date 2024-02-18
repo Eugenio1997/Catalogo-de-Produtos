@@ -6,7 +6,7 @@ import {
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {catchError, Subject, takeUntil, tap} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SigninService} from "@components/authentication/signin/signin.service";
 import {AuthService} from "@components/authentication/shared/services/auth.service";
 import {SignupService} from "@components/authentication/signup/signup.service";
@@ -25,13 +25,13 @@ export class SigninComponent implements OnInit, AfterContentInit {
   public isSignupInUse: boolean = true;
   public submitted: boolean = false;
   private notifier = new Subject()
-
   constructor(private fb: FormBuilder,
               private _authService: AuthService,
               private _signinService: SigninService,
               private _router: Router,
               private changeDetector: ChangeDetectorRef,
-              private _signupService: SignupService
+              private _signupService: SignupService,
+              private _route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -66,8 +66,16 @@ export class SigninComponent implements OnInit, AfterContentInit {
       .signinEndpointCall(this.authForm.value)
       .pipe(
         tap((): any => {
-            this._signinService.updateIsSigninInUse$(!this.isSigninInUse);
-            this._router.navigate(['/'])}),
+
+          this._signinService.updateIsSigninInUse$(!this.isSigninInUse);
+
+          // Verifique se há um returnUrl na URL
+          const returnUrl = this._route.snapshot.queryParams['returnUrl'];
+
+          returnUrl ? this._router.navigate([returnUrl]) :
+            this._router.navigate(['/'])
+
+        }),
         takeUntil(this.notifier),
         catchError((httpErrorResponse: HttpErrorResponse): any  => {
           this.openModal(httpErrorResponse);

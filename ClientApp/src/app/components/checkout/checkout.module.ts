@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {CartComponent} from "./cart/cart.component";
-import { CartService } from './services/cart.service';
 import {ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
-import { OrderSummaryComponent } from './order-summary/order-summary.component';
 
+import {CheckoutRoutingModule} from "@components/checkout/checkout-routing.module";
+import { CartComponent } from "./cart/cart.component";
+import { CartService } from './services/cart.service';
+import {SharedModule} from "@shared/shared.module";
+import {OrderSummaryComponent} from "@components/checkout/order-summary/order-summary.component";
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    CheckoutRoutingModule,
+    SharedModule
   ],
   exports: [
     CartComponent

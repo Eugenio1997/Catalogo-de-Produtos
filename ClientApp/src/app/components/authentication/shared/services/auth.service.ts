@@ -1,22 +1,21 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {Router} from "@angular/router";
 import {FormGroup} from "@angular/forms";
-import {Observable, tap} from "rxjs";
+import {Observable, of, tap} from "rxjs";
 import {TokenService} from "@components/authentication/shared/services/token.service";
 import {RefreshTokenService} from "@components/authentication/shared/services/refresh-token.service";
 import {RequestRefreshToken} from "@interfaces/authentication/refresh-token/request-refresh-token";
 import {ResponseSignin} from "@interfaces/authentication/signin/response-signin";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 
 @Injectable()
 export class AuthService {
   constructor(private _http: HttpClient,
               @Inject('BACKEND_BASE_URL') private backendBaseUrl: string,
-              private router: Router,
               private _tokenService: TokenService,
-              private _refreshToken: RefreshTokenService) {}
-
+              private _refreshToken: RefreshTokenService,
+              private _jwtHelper: JwtHelperService) {}
 
   public getToken(): string {
     return this._tokenService.getToken()!;
@@ -43,6 +42,7 @@ export class AuthService {
   }
 
   public signinEndpointCall(formData: FormGroup): Observable<HttpResponse<ResponseSignin>> {
+
     return this._http
       .post<any>(this.backendBaseUrl + 'auth/' + 'signin', formData, {observe: 'response'})
       .pipe(
@@ -70,6 +70,17 @@ export class AuthService {
       .post<any>(this.backendBaseUrl + 'auth/' + 'refresh',
         body,
         {observe: 'response', headers})
+
+  }
+
+  public isAuthenticated(): Observable<boolean> {
+
+    const token = this.getToken();
+
+    if(!this._jwtHelper.isTokenExpired(token)){
+      return of(true)
+    }
+    return of(false);
 
   }
 

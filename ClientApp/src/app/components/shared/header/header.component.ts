@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   //methods
-  public SidenavToggle(): void {
+  public sidenavToggle(): void {
     this.menuStatus = !this.menuStatus;
     this.sidenavToggled.emit(this.menuStatus);
   }

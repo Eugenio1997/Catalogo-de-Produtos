@@ -14,6 +14,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Actions, ErrorName} from "@interfaces/products/detail/product-detail";
 import { CartService } from '../services/cart.service';
 import {Modal} from "@interfaces/modal";
+import {Router} from "@angular/router";
+import {AuthService} from "@components/authentication/shared/services/auth.service";
 
 @Component({
   selector: 'app-cart',
@@ -36,7 +38,9 @@ export class CartComponent implements OnInit, AfterContentInit{
   constructor(private _productService: ProductService,
               private _cartService: CartService,
               private fb: FormBuilder,
-              private changeDetector: ChangeDetectorRef,) {}
+              private _router: Router,
+              private changeDetector: ChangeDetectorRef,
+              private _authService: AuthService) {}
 
   ngOnInit(): void {
     this.fetchProductsGroupByIds();
@@ -168,8 +172,8 @@ export class CartComponent implements OnInit, AfterContentInit{
     return products;
   }
 
-  public closeOrder() {
-      console.log("Fechar pagamento !");
+  public continueToOrderReview() {
+    this._router.navigate(['/products/checkout/order-summary']);
   }
 
 
