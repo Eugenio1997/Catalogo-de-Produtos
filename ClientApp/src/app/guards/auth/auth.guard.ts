@@ -1,24 +1,24 @@
-import {CanActivateFn, Router, UrlSegment} from '@angular/router';
+import {CanActivateFn, Router} from '@angular/router';
 import {inject} from "@angular/core";
 import {map} from "rxjs";
 import {AuthService} from "@components/authentication/shared/services/auth.service";
 
 export const AuthGuard: CanActivateFn = (
-  route,
-  state) => {
+    route,
+    state) => {
 
-  const authService: AuthService = inject(AuthService);
-  const router: Router = inject(Router);
-  const orderSummaryRoute = route.url[0].path;
-  return authService.isAuthenticated().pipe(
-    map((status) => {
-      if(status){
-          return true;
-      }else{
-          authService.emitOrderSummaryRoute(orderSummaryRoute);
-          router.navigate(['/signin']);
-          return false;
-      }
-    })
-  );
+    const authService: AuthService = inject(AuthService);
+    const router: Router = inject(Router);
+    return authService.isAuthenticated().pipe(
+        map((status) => {
+          if(status){
+              return true;
+          }
+
+        // Pass the returnUrl as a query parameter to the signin route
+        router.navigate(['/signin'], { queryParams: { returnUrl: '/products/checkout/order-summary' } });
+
+        return false;
+        })
+    );
 };
