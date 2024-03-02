@@ -14,8 +14,7 @@ export class AuthService {
   constructor(private _http: HttpClient,
               @Inject('BACKEND_BASE_URL') private backendBaseUrl: string,
               private _tokenService: TokenService,
-              private _refreshToken: RefreshTokenService,
-              private _jwtHelper: JwtHelperService) {}
+              private _refreshToken: RefreshTokenService) {}
 
   public getToken(): string {
     return this._tokenService.getToken()!;
@@ -75,9 +74,10 @@ export class AuthService {
 
   public isAuthenticated(): Observable<boolean> {
 
+    const _jwtHelper = new JwtHelperService()
     const token = this.getToken();
 
-    if(!this._jwtHelper.isTokenExpired(token)){
+    if(!_jwtHelper.isTokenExpired(token)){
       return of(true)
     }
     return of(false);
