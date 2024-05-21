@@ -11,10 +11,16 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Injectable()
 export class AuthService {
+
+  public _jwtHelper: JwtHelperService;
   constructor(private _http: HttpClient,
               @Inject('BACKEND_BASE_URL') private backendBaseUrl: string,
               private _tokenService: TokenService,
-              private _refreshToken: RefreshTokenService) {}
+              private _refreshToken: RefreshTokenService) {
+
+    this._jwtHelper = new JwtHelperService()
+
+  }
 
   public getToken(): string {
     return this._tokenService.getToken()!;
@@ -51,6 +57,7 @@ export class AuthService {
             const refreshToken = response.body!.refreshToken;
             this._tokenService.setToken(accessToken);
             this._refreshToken.setRefreshToken(refreshToken);
+            this.setLoggedInUsername(response.body!.userName);
           }
         })
       )
@@ -74,14 +81,21 @@ export class AuthService {
 
   public isAuthenticated(): Observable<boolean> {
 
-    const _jwtHelper = new JwtHelperService()
     const token = this.getToken();
 
-    if(!_jwtHelper.isTokenExpired(token)){
-      return of(true)
+    if(!this._jwtHelper.isTokenExpired(token)){
+      return of(true);
     }
     return of(false);
 
+  }
+
+  public setLoggedInUsername(username: string): void{
+    localStorage.setItem("loggedInUsername", username);
+  }
+
+  public getLoggedInUsername(): string {
+    return localStorage.getItem("loggedInUsername") as string;
   }
 
 }

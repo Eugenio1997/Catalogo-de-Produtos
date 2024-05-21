@@ -159,6 +159,7 @@ public class AuthController: ControllerBase
         var userCredentials = new ResponseSigninUserModel()
         {
             Id = dbUser.Id,
+            UserName = dbUser.Firstname,
             AccessToken = access_token,
             RefreshToken = dbUser.RefreshToken
         };
