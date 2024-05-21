@@ -55,7 +55,15 @@ nav.navbar {
         min-width: 2.648rem;
       }
 
+  .logout-box{
+    min-width: 142px;
+  }
 
+  .align-to-right-signout-button-and-username{
+    width: 100%;
+    min-width: 200px;
+    justify-content: flex-end !important;
+  }
 
 .cursor-pointer{
   cursor: pointer;
@@ -64,3 +72,7 @@ nav.navbar {
 .text-decoration-none{
   text-decoration: none;
 }
+
+
+
+

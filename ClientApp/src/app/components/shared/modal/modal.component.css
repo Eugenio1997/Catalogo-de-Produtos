@@ -4,7 +4,7 @@
   right: 0;
   bottom: 0;
   left: 15.5rem;
-  background: rgba(0,0,0,0.5);
+  background-color: #00000080;
 }
 
 .modal-tablet{
@@ -13,10 +13,11 @@
   right: 0;
   bottom: 0;
   left: 3.75rem;
-  background: rgba(0,0,0,0.5);
+  background-color: #00000080;
 }
 
 .modal-on-signin-component {
   left: 0;
   top: 0;
+  background-color: #00000080;
 }

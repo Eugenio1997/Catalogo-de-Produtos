@@ -11,7 +11,7 @@
       Catálogo de Produtos
     </span>
   </a>
-  <div *ngIf="isProductDetailOrListingLoaded" class="shopping-cart d-flex flex-nowrap justify-content-center align-items-center w-100 animate__animated animate__fadeIn">
+  <div *ngIf="isProductDetailOrListingLoaded" class=" shopping-cart d-flex flex-nowrap justify-content-center align-items-center w-100 animate__animated animate__fadeIn">
     <div class="cart-info text-decoration-none w-75 h-100 d-flex flex-nowrap justify-content-end align-items-center">
       <a [routerLink]="['/products/checkout/cart']" class="cursor-pointer text-decoration-none d-flex flex-nowrap justify-content-center align-items-center">
         <div class="shopping-cart-icon cursor-pointer h-100 d-flex flex-nowrap justify-content-center align-items-center">
@@ -23,5 +23,17 @@
       </a>
     </div>
   </div>
+
+  <div *ngIf="isUserLoggedIn" [ngClass]="{
+    'align-to-right-signout-button-and-username': !isProductDetailOrListingLoaded}"
+       class="d-flex justify-content-between-sm justify-content-md-center justify-content-lg-center align-items-center">
+      <span class="text-white mr-2">Ola!, {{loggedInUsername}}</span>
+      <button class="btn btn-primary" (click)="logout()">Logout</button>
+  </div>
+
+  <div *ngIf="!isUserLoggedIn" class="w-100 h-100 d-flex justify-content-end align-items-center">
+    <button class="btn btn-primary" [routerLink]="['/signin']">Login</button>
+  </div>
+
 
 </nav>
